@@ -1,21 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: prometheus-custom-collector-deployment
+  name: tango-exporter-deployment
+  namespace: integration
   labels:
-    app: prometheus-custom-collector
+    app: tango-exporter
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: prometheus-custom-collector
+      app: tango-exporter
   template:
     metadata:
       labels:
-        app: prometheus-custom-collector
+        app: tango-exporter
     spec:
       containers:
-      - name: prometheus-custom-collector
-        image: kubejack/prometheus-custom-collector:0.2
+      - name: tango-exporter
+        image: tango-exporter:1.0.0
         ports:
         - containerPort: 80
+        env:
+        - name: TANGO_HOST
+          value: databaseds-tango-base-test:10000
