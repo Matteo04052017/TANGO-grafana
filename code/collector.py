@@ -9,7 +9,7 @@ class CustomCollector(object):
         pass
 
     def collect(self):
-        g = GaugeMetricFamily("device_attribute", 'Device attribute value', labels=['device', 'attribute', 'label', 'string_value'])
+        g = GaugeMetricFamily("device_attribute", 'Device attribute value', labels=['device', 'name', 'label', 'string_value'])
         total_count = 0
         read_count = 0
         error_count = 0

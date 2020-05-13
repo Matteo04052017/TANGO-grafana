@@ -1,6 +1,5 @@
 
 
-
 build:
 	docker build -t tango-exporter:1.0.0 -f Dockerfile .
 
@@ -11,6 +10,6 @@ delete:
 	kubectl delete -f yaml/deployment.yaml -f yaml/service.yaml
 
 curl: 
-	curl $(kubectl get svc -n integration -o jsonpath='{.items[?(@.metadata.name=="tango-exporter-service")].spec.clusterIP}')/metrics
+	./get_metrics.sh
 
 all: build delete deploy

@@ -1,0 +1,1 @@
+curl $(kubectl get svc -n integration -o jsonpath='{.items[?(@.metadata.name=="tango-exporter-service")].spec.clusterIP}')/metrics
