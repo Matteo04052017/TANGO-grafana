@@ -8,8 +8,79 @@ class CustomCollector(object):
         self.db = Database()
         pass
 
+    def add_to_metric(self, dev, attr_info, metric):
+        if(attr_info.data_type == ArgType.DevShort or attr_info.data_type == ArgType.DevLong or
+            attr_info.data_type == ArgType.DevUShort or attr_info.data_type == ArgType.DevULong or
+            attr_info.data_type == ArgType.DevLong64 or attr_info.data_type == ArgType.DevULong64 or
+            attr_info.data_type == ArgType.DevInt or attr_info.data_type == ArgType.DevFloat or 
+            attr_info.data_type == ArgType.DevDouble):
+                attr_value = dev.read_attribute(attr_info.name)
+                metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, '', 'float', str(attr_value.dim_x), str(attr_value.dim_y), '0', '0'], float(attr_value.value))
+                return 1
+        elif(attr_info.data_type == ArgType.DevBoolean):
+            attr_value = dev.read_attribute(attr_info.name)
+            metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, '','bool', str(attr_value.dim_x), str(attr_value.dim_y), '0', '0'], int(attr_value.value))
+            return 1
+        elif(attr_info.data_type == ArgType.DevString):
+            attr_value = dev.read_attribute(attr_info.name)
+            metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_value.value),'string', str(attr_value.dim_x), str(attr_value.dim_y), '0', '0'], 1)
+            return 1
+        elif(attr_info.data_type == ArgType.DevEnum):
+            attr_value = dev.read_attribute(attr_info.name)
+            metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_value.value),'enum', str(attr_value.dim_x), str(attr_value.dim_y), '0', '0'], int(attr_value.value))
+            return 1
+        elif(attr_info.data_type == ArgType.DevState):
+            attr_value = dev.read_attribute(attr_info.name)
+            metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_value.value),'state', str(attr_value.dim_x), str(attr_value.dim_y), '0', '0'], int(attr_value.value))
+            return 1
+        else:
+            return 0
+
+    def add_to_metric_spectrum(self, dev, attr_info, metric):
+        attr_value = dev.read_attribute(attr_info.name)
+        for x in range(int(attr_value.dim_x)-1):
+            if(attr_info.data_type == ArgType.DevShort or attr_info.data_type == ArgType.DevLong or
+                attr_info.data_type == ArgType.DevUShort or attr_info.data_type == ArgType.DevULong or
+                attr_info.data_type == ArgType.DevLong64 or attr_info.data_type == ArgType.DevULong64 or
+                attr_info.data_type == ArgType.DevInt or attr_info.data_type == ArgType.DevFloat or 
+                attr_info.data_type == ArgType.DevDouble):
+                    metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, '', 'float', str(attr_value.dim_x), str(attr_value.dim_y), str(x), '0'], float(attr_value.value[x]))
+            elif(attr_info.data_type == ArgType.DevBoolean):
+                metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, '','bool', str(attr_value.dim_x), str(attr_value.dim_y), str(x), '0'], int(attr_value.value[x,y]))
+            elif(attr_info.data_type == ArgType.DevString):
+                metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_value.value[x]),'string', str(attr_value.dim_x), str(attr_value.dim_y), str(x), '0'], 1)
+            elif(attr_info.data_type == ArgType.DevEnum):
+                metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_value.value[x]),'enum', str(attr_value.dim_x), str(attr_value.dim_y), str(x), '0'], int(attr_value.value[x]))
+            elif(attr_info.data_type == ArgType.DevState):
+                metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_value.value[x]),'state', str(attr_value.dim_x), str(attr_value.dim_y), str(x), '0'], int(attr_value.value[x]))
+            else:
+                pass
+        return 1
+
+    def add_to_metric_image(self, dev, attr_info, metric):
+        attr_value = dev.read_attribute(attr_info.name)
+        for x in range(int(attr_value.dim_x)-1):
+            for y in range(int(attr_value.dim_y)-1): 
+                if(attr_info.data_type == ArgType.DevShort or attr_info.data_type == ArgType.DevLong or
+                    attr_info.data_type == ArgType.DevUShort or attr_info.data_type == ArgType.DevULong or
+                    attr_info.data_type == ArgType.DevLong64 or attr_info.data_type == ArgType.DevULong64 or
+                    attr_info.data_type == ArgType.DevInt or attr_info.data_type == ArgType.DevFloat or 
+                    attr_info.data_type == ArgType.DevDouble):
+                        metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, '', 'float', str(attr_value.dim_x), str(attr_value.dim_y), str(x), str(y)], float(attr_value.value[x,y]))
+                elif(attr_info.data_type == ArgType.DevBoolean):
+                    metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, '','bool', str(attr_value.dim_x), str(attr_value.dim_y), str(x), str(y)], int(attr_value.value[x,y]))
+                elif(attr_info.data_type == ArgType.DevString):
+                    metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_value.value[x,y]),'string', str(attr_value.dim_x), str(attr_value.dim_y), str(x), str(y)], 1)
+                elif(attr_info.data_type == ArgType.DevEnum):
+                    metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_value.value[x,y]),'enum', str(attr_value.dim_x), str(attr_value.dim_y), str(x), str(y)], int(attr_value.value[x,y]))
+                elif(attr_info.data_type == ArgType.DevState):
+                    metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_value.value[x,y]),'state', str(attr_value.dim_x), str(attr_value.dim_y), str(x), str(y)], int(attr_value.value[x,y]))
+                else:
+                    pass
+        return 1
+
     def collect(self):
-        g = GaugeMetricFamily("device_attribute", 'Device attribute value', labels=['device', 'name', 'label', 'string_value'])
+        g = GaugeMetricFamily("device_attribute", 'Device attribute value', labels=['device', 'name', 'label', 'str_value', 'type', 'dim_x', 'dim_y', 'x', 'y'])
         total_count = 0
         read_count = 0
         error_count = 0
@@ -24,18 +95,37 @@ class CustomCollector(object):
             while j < len(class_list):
                 try:
                     dev = DeviceProxy(class_list[j])
+                    dev.set_timeout_millis(100)
                     attr_list = dev.attribute_list_query()
                     for attr_info in attr_list:
                         total_count += 1
-                        # {0: tango._tango.CmdArgType.DevVoid,
-                        #  1: tango._tango.CmdArgType.DevBoolean,*
-                        #  2: tango._tango.CmdArgType.DevShort,*
-                        #  3: tango._tango.CmdArgType.DevLong,*
-                        #  4: tango._tango.CmdArgType.DevFloat,*
-                        #  5: tango._tango.CmdArgType.DevDouble,*
-                        #  6: tango._tango.CmdArgType.DevUShort,*
-                        #  7: tango._tango.CmdArgType.DevULong,*
-                        #  8: tango._tango.CmdArgType.DevString,
+                        #  1: tango._tango.CmdArgType.DevBoolean,
+                        #  2: tango._tango.CmdArgType.DevShort,
+                        #  3: tango._tango.CmdArgType.DevLong,
+                        #  4: tango._tango.CmdArgType.DevFloat,
+                        #  5: tango._tango.CmdArgType.DevDouble,
+                        #  6: tango._tango.CmdArgType.DevUShort,
+                        #  7: tango._tango.CmdArgType.DevULong,
+                        #  8: tango._tango.CmdArgType.DevString, 
+                        #  19: tango._tango.CmdArgType.DevState,
+                        #  23: tango._tango.CmdArgType.DevLong64,
+                        #  24: tango._tango.CmdArgType.DevULong64,
+                        #  27: tango._tango.CmdArgType.DevInt,
+                        #  29: tango._tango.CmdArgType.DevEnum, 
+                        if(attr_info.data_format == AttrDataFormat.SCALAR):
+                            res = self.add_to_metric(dev, attr_info, g)
+                            if(res > 0):
+                                read_count = read_count + res
+                            else:
+                                # {0: tango._tango.CmdArgType.DevVoid,
+                                #  28: tango._tango.CmdArgType.DevEncoded, 
+                                #  30: tango._tango.CmdArgType.DevPipeBlob,
+                                #  22: tango._tango.CmdArgType.DevUChar,
+                                #  20: tango._tango.CmdArgType.ConstDevString,
+                                not_managed_attribute_count += 1
+                                print("*******NOT MANAGED**********")
+                                print(attr_info)
+                                print("****************************")
                         #  9: tango._tango.CmdArgType.DevVarCharArray,
                         #  10: tango._tango.CmdArgType.DevVarShortArray,
                         #  11: tango._tango.CmdArgType.DevVarLongArray,
@@ -46,51 +136,35 @@ class CustomCollector(object):
                         #  16: tango._tango.CmdArgType.DevVarStringArray,
                         #  17: tango._tango.CmdArgType.DevVarLongStringArray,
                         #  18: tango._tango.CmdArgType.DevVarDoubleStringArray,
-                        #  19: tango._tango.CmdArgType.DevState,
-                        #  20: tango._tango.CmdArgType.ConstDevString,
                         #  21: tango._tango.CmdArgType.DevVarBooleanArray,
-                        #  22: tango._tango.CmdArgType.DevUChar,
-                        #  23: tango._tango.CmdArgType.DevLong64,*
-                        #  24: tango._tango.CmdArgType.DevULong64,*
                         #  25: tango._tango.CmdArgType.DevVarLong64Array,
                         #  26: tango._tango.CmdArgType.DevVarULong64Array,
-                        #  27: tango._tango.CmdArgType.DevInt,*
-                        #  28: tango._tango.CmdArgType.DevEncoded, *****????????
-                        #  29: tango._tango.CmdArgType.DevEnum, *****????????
-                        #  30: tango._tango.CmdArgType.DevPipeBlob, *****????????
                         #  31: tango._tango.CmdArgType.DevVarStateArray}
-                        if(attr_info.data_format == AttrDataFormat.SCALAR):
-                            if(attr_info.data_type == ArgType.DevShort or attr_info.data_type == ArgType.DevLong or
-                                attr_info.data_type == ArgType.DevUShort or attr_info.data_type == ArgType.DevULong or
-                                attr_info.data_type == ArgType.DevLong64 or attr_info.data_type == ArgType.DevULong64 or
-                                attr_info.data_type == ArgType.DevInt or attr_info.data_type == ArgType.DevFloat or 
-                                attr_info.data_type == ArgType.DevDouble):
-                                    attr_value = dev.read_attribute(attr_info.name)
-                                    g.add_metric([class_list[j], attr_info.name, attr_info.label, ''], float(attr_value.value))
-                                    read_count = read_count + 1
-                            elif(attr_info.data_type == ArgType.DevBoolean):
-                                attr_value = dev.read_attribute(attr_info.name)
-                                g.add_metric([class_list[j], attr_info.name, attr_info.label, ''], int(attr_value.value))
-                                read_count = read_count + 1
-                            elif(attr_info.data_type == ArgType.DevString):
-                                attr_value = dev.read_attribute(attr_info.name)
-                                g.add_metric([class_list[j], attr_info.name, attr_info.label, str(attr_value.value)], 1)
-                                read_count = read_count + 1
-                            elif(attr_info.data_type == ArgType.DevEnum):
-                                attr_value = dev.read_attribute(attr_info.name)
-                                g.add_metric([class_list[j], attr_info.name, attr_info.label, str(attr_value.value)], int(attr_value.value))
-                                read_count = read_count + 1
-                            elif(attr_info.data_type == ArgType.DevState):
-                                attr_value = dev.read_attribute(attr_info.name)
-                                g.add_metric([class_list[j], attr_info.name, attr_info.label, str(attr_value.value)], int(attr_value.value))
-                                read_count = read_count + 1
-                            else:
+                        elif(attr_info.data_format == AttrDataFormat.SPECTRUM):
+                            res = self.add_to_metric_spectrum(dev, attr_info, g)
+                            if(res <= 0):
                                 not_managed_attribute_count += 1
                                 print("*******NOT MANAGED**********")
                                 print(attr_info)
                                 print("****************************")
-                        else:
                             multidimension_attribute += 1
+                            read_count += 1
+                        elif(attr_info.data_format == AttrDataFormat.IMAGE):
+                            res = self.add_to_metric_image(dev, attr_info, g)
+                            if(res <= 0):
+                                not_managed_attribute_count += 1
+                                print("*******NOT MANAGED**********")
+                                print(attr_info)
+                                print("****************************")
+                            multidimension_attribute += 1
+                            read_count += 1
+                        else:
+                            # AttrDataFormat.FMT_UNKNOWN
+                            not_managed_attribute_count += 1
+                            print("*******NOT MANAGED**********")
+                            print(attr_info)
+                            print("****************************")
+
                 except Exception as e: 
                     print ("Could not connect to the '"+class_list[j]+"' DeviceProxy.\r\n")
                     print (e)

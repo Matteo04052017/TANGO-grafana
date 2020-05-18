@@ -7,7 +7,7 @@ deploy:
 	kubectl apply -f yaml/deployment.yaml -f yaml/service.yaml
 
 delete:
-	kubectl delete -f yaml/deployment.yaml -f yaml/service.yaml
+	kubectl delete -f yaml/deployment.yaml -f yaml/service.yaml || true
 
 curl: 
 	./get_metrics.sh
