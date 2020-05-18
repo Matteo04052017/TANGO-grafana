@@ -196,14 +196,9 @@ class CustomCollector(object):
         image_attribute_count.add_metric([], image_count)
         yield image_attribute_count
 
-        h = GaugeMetricFamily("not_managed_attribute_count", 'Total number of not managed attributes')
-        h.add_metric([], not_managed_attribute_count)
-        yield h
-
-
-
-
-
+        not_managed = GaugeMetricFamily("not_managed_attribute_count", 'Total number of not managed attributes')
+        not_managed.add_metric([], not_managed_attribute_count)
+        yield not_managed
 
 if __name__ == '__main__':
     start_http_server(8000)

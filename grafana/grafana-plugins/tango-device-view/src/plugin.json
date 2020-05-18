@@ -1,0 +1,38 @@
+{
+  "type": "panel",
+  "name": "TANGO Device view",
+  "id": "inaf-ska-tango-device-view",
+  "info": {
+    "description": "Tango device view",
+    "author": {
+      "name": "Matteo Di Carlo",
+      "url": "www.inaf.it"
+    },
+    "keywords": [
+      "tango",
+      "device",
+      "view"
+    ],
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    },
+    "links": [
+      {
+        "name": "Website",
+        "url": "https://github.com/grafana/simple-react-panel"
+      },
+      {
+        "name": "License",
+        "url": "https://github.com/grafana/simple-react-panel/blob/master/LICENSE"
+      }
+    ],
+    "screenshots": [],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+  "dependencies": {
+    "grafanaVersion": "6.3.x",
+    "plugins": []
+  }
+}
