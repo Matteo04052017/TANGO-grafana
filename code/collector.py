@@ -46,7 +46,7 @@ class CustomCollector(object):
                 attr_info.data_type == ArgType.DevDouble):
                     metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, '', 'float', str(attr_value.dim_x), str(attr_value.dim_y), str(x), '0'], float(attr_value.value[x]))
             elif(attr_info.data_type == ArgType.DevBoolean):
-                metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, '','bool', str(attr_value.dim_x), str(attr_value.dim_y), str(x), '0'], int(attr_value.value[x,y]))
+                metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, '','bool', str(attr_value.dim_x), str(attr_value.dim_y), str(x), '0'], int(attr_value.value[x]))
             elif(attr_info.data_type == ArgType.DevString):
                 metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_value.value[x]),'string', str(attr_value.dim_x), str(attr_value.dim_y), str(x), '0'], 1)
             elif(attr_info.data_type == ArgType.DevEnum):
@@ -59,34 +59,35 @@ class CustomCollector(object):
 
     def add_to_metric_image(self, dev, attr_info, metric):
         attr_value = dev.read_attribute(attr_info.name)
-        for x in range(int(attr_value.dim_x)-1):
-            for y in range(int(attr_value.dim_y)-1): 
+        for y in range(int(attr_value.dim_y)-1): 
+            for x in range(int(attr_value.dim_x)-1):
                 if(attr_info.data_type == ArgType.DevShort or attr_info.data_type == ArgType.DevLong or
                     attr_info.data_type == ArgType.DevUShort or attr_info.data_type == ArgType.DevULong or
                     attr_info.data_type == ArgType.DevLong64 or attr_info.data_type == ArgType.DevULong64 or
                     attr_info.data_type == ArgType.DevInt or attr_info.data_type == ArgType.DevFloat or 
                     attr_info.data_type == ArgType.DevDouble):
-                        metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, '', 'float', str(attr_value.dim_x), str(attr_value.dim_y), str(x), str(y)], float(attr_value.value[x,y]))
+                        metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, '', 'float', str(attr_value.dim_x), str(attr_value.dim_y), str(x), str(y)], float(attr_value.value[y][x]))
                 elif(attr_info.data_type == ArgType.DevBoolean):
-                    metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, '','bool', str(attr_value.dim_x), str(attr_value.dim_y), str(x), str(y)], int(attr_value.value[x,y]))
+                    metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, '','bool', str(attr_value.dim_x), str(attr_value.dim_y), str(x), str(y)], int(attr_value.value[y][x]))
                 elif(attr_info.data_type == ArgType.DevString):
-                    metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_value.value[x,y]),'string', str(attr_value.dim_x), str(attr_value.dim_y), str(x), str(y)], 1)
+                    metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_value.value[y][x]),'string', str(attr_value.dim_x), str(attr_value.dim_y), str(x), str(y)], 1)
                 elif(attr_info.data_type == ArgType.DevEnum):
-                    metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_value.value[x,y]),'enum', str(attr_value.dim_x), str(attr_value.dim_y), str(x), str(y)], int(attr_value.value[x,y]))
+                    metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_value.value[y][x]),'enum', str(attr_value.dim_x), str(attr_value.dim_y), str(x), str(y)], int(attr_value.value[y][x]))
                 elif(attr_info.data_type == ArgType.DevState):
-                    metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_value.value[x,y]),'state', str(attr_value.dim_x), str(attr_value.dim_y), str(x), str(y)], int(attr_value.value[x,y]))
+                    metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_value.value[y][x]),'state', str(attr_value.dim_x), str(attr_value.dim_y), str(x), str(y)], int(attr_value.value[y][x]))
                 else:
                     pass
         return 1
 
     def collect(self):
-        g = GaugeMetricFamily("device_attribute", 'Device attribute value', labels=['device', 'name', 'label', 'str_value', 'type', 'dim_x', 'dim_y', 'x', 'y'])
+        attribute_metrics = GaugeMetricFamily("device_attribute", 'Device attribute value', labels=['device', 'name', 'label', 'str_value', 'type', 'dim_x', 'dim_y', 'x', 'y'])
         total_count = 0
         read_count = 0
         error_count = 0
-        scalar_attribute = 0
+        scalar_count = 0
+        spectrum_count = 0
+        image_count = 0
         not_managed_attribute_count = 0
-        multidimension_attribute = 0
         server_list = self.db.get_server_list()
         i = 0
         while i < len(server_list):
@@ -113,9 +114,10 @@ class CustomCollector(object):
                         #  27: tango._tango.CmdArgType.DevInt,
                         #  29: tango._tango.CmdArgType.DevEnum, 
                         if(attr_info.data_format == AttrDataFormat.SCALAR):
-                            res = self.add_to_metric(dev, attr_info, g)
+                            res = self.add_to_metric(dev, attr_info, attribute_metrics)
                             if(res > 0):
                                 read_count = read_count + res
+                                scalar_count += 1
                             else:
                                 # {0: tango._tango.CmdArgType.DevVoid,
                                 #  28: tango._tango.CmdArgType.DevEncoded, 
@@ -141,22 +143,23 @@ class CustomCollector(object):
                         #  26: tango._tango.CmdArgType.DevVarULong64Array,
                         #  31: tango._tango.CmdArgType.DevVarStateArray}
                         elif(attr_info.data_format == AttrDataFormat.SPECTRUM):
-                            res = self.add_to_metric_spectrum(dev, attr_info, g)
+                            res = self.add_to_metric_spectrum(dev, attr_info, attribute_metrics)
                             if(res <= 0):
                                 not_managed_attribute_count += 1
                                 print("*******NOT MANAGED**********")
                                 print(attr_info)
                                 print("****************************")
-                            multidimension_attribute += 1
+                            spectrum_count += 1
                             read_count += 1
+                            
                         elif(attr_info.data_format == AttrDataFormat.IMAGE):
-                            res = self.add_to_metric_image(dev, attr_info, g)
+                            res = self.add_to_metric_image(dev, attr_info, attribute_metrics)
                             if(res <= 0):
                                 not_managed_attribute_count += 1
                                 print("*******NOT MANAGED**********")
                                 print(attr_info)
                                 print("****************************")
-                            multidimension_attribute += 1
+                            image_count += 1
                             read_count += 1
                         else:
                             # AttrDataFormat.FMT_UNKNOWN
@@ -164,7 +167,6 @@ class CustomCollector(object):
                             print("*******NOT MANAGED**********")
                             print(attr_info)
                             print("****************************")
-
                 except Exception as e: 
                     print ("Could not connect to the '"+class_list[j]+"' DeviceProxy.\r\n")
                     print (e)
@@ -172,27 +174,35 @@ class CustomCollector(object):
                 j += 2
             i += 1
         
-        yield g
+        yield attribute_metrics
 
-        c = GaugeMetricFamily("error_count", 'Total number of errors reading the attributes')
-        c.add_metric([], error_count)
-        yield c
+        errors = GaugeMetricFamily("error_count", 'Total number of errors reading the attributes')
+        errors.add_metric([], error_count)
+        yield errors
 
-        d = GaugeMetricFamily("total_attribute_count", 'Total number of attributes')
-        d.add_metric([], total_count)
-        yield d
+        attribute_count = GaugeMetricFamily("attribute_count", 'Total number of attributes')
+        attribute_count.add_metric([], total_count)
+        yield attribute_count
 
-        e = GaugeMetricFamily("attribute_count", 'Total number of read attributes')
-        e.add_metric([], read_count)
-        yield e
+        attribute_read_count = GaugeMetricFamily("attribute_read_count", 'Total number of read attributes')
+        attribute_read_count.add_metric([], read_count)
+        yield attribute_read_count
 
-        f = GaugeMetricFamily("multidimension_attribute_count", 'Total number of multi dimension attributes')
-        f.add_metric([], multidimension_attribute)
-        yield f
+        spectrum_attribute_count = GaugeMetricFamily("spectrum_attribute_count", 'Total number of spectrum attributes')
+        spectrum_attribute_count.add_metric([], spectrum_count)
+        yield spectrum_attribute_count
 
-        g = GaugeMetricFamily("not_managed_attribute_count", 'Total number of not managed attributes')
-        g.add_metric([], not_managed_attribute_count)
-        yield g
+        image_attribute_count = GaugeMetricFamily("image_attribute_count", 'Total number of image attributes')
+        image_attribute_count.add_metric([], image_count)
+        yield image_attribute_count
+
+        h = GaugeMetricFamily("not_managed_attribute_count", 'Total number of not managed attributes')
+        h.add_metric([], not_managed_attribute_count)
+        yield h
+
+
+
+
 
 
 if __name__ == '__main__':
