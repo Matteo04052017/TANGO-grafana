@@ -9,7 +9,7 @@ interface Props extends PanelProps<SimpleOptions> {}
 export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) => {
   const theme = useTheme();
   const styles = getStyles();
-  const device_attributes = data.series;
+  const device_attributes = data.series.map(series => series.fields.find(field => field.type === 'number'));
 
   return (
     <div
@@ -22,10 +22,12 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
       )}
     >
       <ul>
-        {device_attributes.map((attribute, index) => {
-          attribute.fields.map((field, index) => {
-            return <li>{field.name}</li>;
-          });
+        {device_attributes.map(attribute => {
+          return (
+            <li>
+              {attribute?.labels?.name}:{attribute?.values.get(attribute.values.length - 1)}
+            </li>
+          );
         })}
       </ul>
 
