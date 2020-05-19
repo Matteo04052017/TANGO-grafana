@@ -1,67 +1,105 @@
 import React from 'react';
 import { PanelProps } from '@grafana/data';
 import { SimpleOptions } from 'types';
-import { css, cx } from 'emotion';
-import { stylesFactory, useTheme } from '@grafana/ui';
+import DataTable, { createTheme } from 'react-data-table-component';
+
+// https://github.com/jbetancur/react-data-table-component/blob/master/src/DataTable/themes.js
+createTheme('solarized', {
+  text: {
+    primary: '#268bd2',
+    secondary: '#2aa198',
+  },
+  background: {
+    default: '#002b36',
+  },
+  context: {
+    background: '#cb4b16',
+    text: '#FFFFFF',
+  },
+  divider: {
+    default: '#073642',
+  },
+  sortFocus: {
+    default: 'white',
+  },
+});
+
+// https://github.com/jbetancur/react-data-table-component/blob/master/src/DataTable/styles.js
+const customStyles = {
+  headCells: {
+    style: {
+      fontSize: '22px',
+      fontWeight: 1000,
+    },
+  },
+};
+
+// https://github.com/jbetancur/react-data-table-component#columns
+const columns = [
+  {
+    name: 'Name',
+    selector: 'name',
+    sortable: true,
+  },
+  {
+    name: 'Value',
+    selector: 'value',
+    sortable: true,
+    conditionalCellStyles: [
+      {
+        when: (row: any) => row.value === 'ON',
+        style: {
+          backgroundColor: 'rgba(63, 195, 128, 0.9)',
+          color: 'white',
+          '&:hover': {
+            cursor: 'pointer',
+          },
+        },
+      },
+      {
+        when: (row: any) => row.value === 'OFF',
+        style: {
+          backgroundColor: 'rgba(242, 38, 19, 0.9)',
+          color: 'white',
+          '&:hover': {
+            cursor: 'not-allowed',
+          },
+        },
+      },
+    ],
+  },
+];
 
 interface Props extends PanelProps<SimpleOptions> {}
 
 export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) => {
-  const theme = useTheme();
-  const styles = getStyles();
   const device_attributes = data.series.map(series => series.fields.find(field => field.type === 'number'));
 
-  return (
-    <div
-      className={cx(
-        styles.wrapper,
-        css`
-          width: ${width}px;
-          height: ${height}px;
-        `
-      )}
-    >
-      <ul>
-        {device_attributes.map(attribute => {
-          return (
-            <li>
-              {attribute?.labels?.name}:{attribute?.values.get(attribute.values.length - 1)}
-            </li>
-          );
-        })}
-      </ul>
+  const attributes = [];
+  for (let i = 0; i < device_attributes.length; i++) {
+    let j = device_attributes[i]?.values.length;
+    if (!j) {
+      j = 1;
+    }
+    let this_value = device_attributes[i]?.values?.get(j - 1);
+    if (device_attributes[i]?.labels?.type === 'string' || device_attributes[i]?.labels?.type === 'state') {
+      this_value = device_attributes[i]?.labels?.str_value;
+    }
 
-      <div className={styles.textBox}>
-        {options.showSeriesCount && (
-          <div
-            className={css`
-              font-size: ${theme.typography.size[options.seriesCountSize]};
-            `}
-          >
-            Number of series: {data.series.length}
-          </div>
-        )}
-        <div>Text option value: {options.text}</div>
-      </div>
-    </div>
+    attributes.push({
+      name: device_attributes[i]?.labels?.name,
+      value: this_value,
+    });
+  }
+
+  return (
+    <DataTable
+      title="Attributes list"
+      columns={columns}
+      data={attributes}
+      theme="solarized"
+      customStyles={customStyles}
+      pagination
+    />
   );
 };
-
-const getStyles = stylesFactory(() => {
-  return {
-    wrapper: css`
-      position: relative;
-    `,
-    svg: css`
-      position: absolute;
-      top: 0;
-      left: 0;
-    `,
-    textBox: css`
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      padding: 10px;
-    `,
-  };
-});

@@ -19,7 +19,9 @@
     "@grafana/data": "next",
     "@grafana/toolkit": "next",
     "@grafana/ui": "next",
-    "emotion": "10.0.27"
+    "emotion": "10.0.27",
+    "react-data-table-component": "^6.9.1",
+    "styled-components": "^5.1.0"
   },
   "engines": {
     "node": ">=12 <13"
