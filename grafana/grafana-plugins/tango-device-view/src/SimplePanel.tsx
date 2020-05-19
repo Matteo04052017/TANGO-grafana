@@ -154,7 +154,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
     }
   }
 
-  console.log('attributes length ' + attributes.length);
+  // console.log('attributes length ' + attributes.length);
 
   return (
     <DataTable
