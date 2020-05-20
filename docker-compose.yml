@@ -28,3 +28,9 @@ services:
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/grafana-plugins:/var/lib/grafana/plugins
     restart: always
+
+  tangogql-proxy:
+    image: tangogql-proxy:1.0.0
+    ports:
+      - 5000:5000
+    restart: always
