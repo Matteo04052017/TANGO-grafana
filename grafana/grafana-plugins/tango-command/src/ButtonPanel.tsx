@@ -35,14 +35,19 @@ export const ButtonPanel: React.FC<Props> = ({ options, data, width, height }) =
     console.log(result.body);
     console.log(result.bodyUsed);
     console.log(typeof json);
-    setDataRes(JSON.stringify(json));
     if (!result.ok) {
       setError(result.statusText);
+      return;
+    }
+    if (json['data']['executeCommand']['ok']) {
+      setDataRes('Command executed successfully. ' + json['data']['executeCommand']['message']);
+    } else {
+      setError('Command failed: ' + json['data']['executeCommand']['message']);
     }
   };
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div>{error}</div>;
   } else if (!isLoaded) {
     return (
       <button className="mybutton" onClick={handleClick}>
