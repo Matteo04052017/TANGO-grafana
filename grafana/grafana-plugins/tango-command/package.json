@@ -19,7 +19,9 @@
     "@grafana/data": "7.0.0",
     "@grafana/toolkit": "7.0.0",
     "@grafana/ui": "7.0.0",
-    "emotion": "10.0.27"
+    "emotion": "10.0.27",
+    "react-ace": "^8.1.0",
+    "ace-builds": "^1.4.11"
   },
   "engines": {
     "node": ">=12 <13"

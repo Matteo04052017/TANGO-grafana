@@ -2,6 +2,7 @@
   "type": "panel",
   "name": "tango-command",
   "id": "inaf-tango-command",
+  "skipDataQuery": true,
   "info": {
     "description": "Call a tango command with parameter",
     "author": {

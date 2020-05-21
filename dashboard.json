@@ -1,0 +1,637 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "id": 3,
+    "links": [],
+    "panels": [
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 3,
+          "x": 0,
+          "y": 0
+        },
+        "id": 11,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "values": false
+          }
+        },
+        "pluginVersion": "7.0.0-beta3",
+        "targets": [
+          {
+            "expr": "attribute_count ",
+            "interval": "",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Total number of attributes",
+        "type": "stat"
+      },
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 3,
+          "x": 3,
+          "y": 0
+        },
+        "id": 12,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "values": false
+          }
+        },
+        "pluginVersion": "7.0.0-beta3",
+        "targets": [
+          {
+            "expr": "attribute_read_count ",
+            "interval": "",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Total number of read attributes",
+        "type": "stat"
+      },
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 3,
+          "x": 6,
+          "y": 0
+        },
+        "id": 13,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "values": false
+          }
+        },
+        "pluginVersion": "7.0.0-beta3",
+        "targets": [
+          {
+            "expr": "spectrum_attribute_count ",
+            "interval": "",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Total number of spectrum attributes",
+        "type": "stat"
+      },
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 3,
+          "x": 9,
+          "y": 0
+        },
+        "id": 14,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "values": false
+          }
+        },
+        "pluginVersion": "7.0.0-beta3",
+        "targets": [
+          {
+            "expr": "image_attribute_count ",
+            "interval": "",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Total number of image attributes",
+        "type": "stat"
+      },
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 3,
+          "x": 12,
+          "y": 0
+        },
+        "id": 15,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "values": false
+          }
+        },
+        "pluginVersion": "7.0.0-beta3",
+        "targets": [
+          {
+            "expr": "error_count ",
+            "interval": "",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Error count",
+        "type": "stat"
+      },
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 3,
+          "x": 15,
+          "y": 0
+        },
+        "id": 16,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "values": false
+          }
+        },
+        "pluginVersion": "7.0.0-beta3",
+        "targets": [
+          {
+            "expr": "not_managed_attribute_count",
+            "interval": "",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Not managed attributes",
+        "type": "stat"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 0,
+          "y": 4
+        },
+        "id": 7,
+        "options": {
+          "button_text": "Start Telescope",
+          "mutation": "{\"query\":\"mutation {\\n  executeCommand(device: \\\"ska_mid/tm_central/central_node\\\", command: \\\"StartUpTelescope\\\") {\\n    ok\\n    output\\n    message\\n  }\\n}\\n\",\"variables\":null}",
+          "param": "{\"query\":\"mutation {\\n  executeCommand(device: \\\"ska_mid/tm_central/central_node\\\", command: \\\"StartUpTelescope\\\") {\\n    ok\\n    output\\n    message\\n  }\\n}\\n\",\"variables\":null}",
+          "password": "abc123",
+          "url": "http://192.168.93.61:5000/mutation",
+          "username": "user1"
+        },
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Start up telescope command",
+        "type": "inaf-tango-command"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 13,
+          "w": 8,
+          "x": 12,
+          "y": 4
+        },
+        "header_js": "{}",
+        "id": 4,
+        "method": "GET",
+        "mode": "template",
+        "params_js": "",
+        "repeat": null,
+        "request": "http",
+        "responseType": "json",
+        "showErrors": true,
+        "showTime": false,
+        "showTimeFormat": "LTS",
+        "showTimePrefix": null,
+        "showTimeValue": "request",
+        "skipSameURL": true,
+        "template": "<pre>{{ response | json }}</pre>",
+        "templateResponse": true,
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "TANGO Database information",
+        "type": "ryantxu-ajax-panel",
+        "url": "http://192.168.93.61:32433/tango/rest/rc4/hosts/databaseds-tango-base-test/10000/",
+        "withCredentials": true
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 13,
+          "w": 12,
+          "x": 0,
+          "y": 8
+        },
+        "hiddenSeries": false,
+        "id": 18,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "device_attribute{device=\"sys/tg_test/1\",dim_x=\"1\",dim_y=\"0\", type=\"float\"}",
+            "interval": "",
+            "legendFormat": "{{name}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "Float scalar values on TangoTest",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 13,
+          "w": 8,
+          "x": 12,
+          "y": 17
+        },
+        "header_js": "{}",
+        "id": 5,
+        "method": "GET",
+        "mode": "template",
+        "params_js": "",
+        "repeat": null,
+        "request": "http",
+        "responseType": "json",
+        "showErrors": true,
+        "showTime": false,
+        "showTimeFormat": "LTS",
+        "showTimePrefix": null,
+        "showTimeValue": "request",
+        "skipSameURL": true,
+        "template": "<pre>{{ response | json }}</pre>",
+        "templateResponse": true,
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "TangoTest  - List commands",
+        "type": "ryantxu-ajax-panel",
+        "url": "http://192.168.93.61:32433/tango/rest/rc4/hosts/databaseds-tango-base-test/10000/devices/sys/tg_test/1/commands",
+        "withCredentials": true
+      },
+      {
+        "datasource": null,
+        "description": "Attribute list for device sys/database/2",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 15,
+          "w": 12,
+          "x": 0,
+          "y": 21
+        },
+        "id": 19,
+        "options": {
+          "dense": false,
+          "header": true,
+          "pagination": false,
+          "tablehead": true
+        },
+        "targets": [
+          {
+            "expr": "device_attribute{device=\"sys/tg_test/1\"}  ",
+            "interval": "",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Attribute list for device TangoTest",
+        "type": "inaf-ska-tango-device-view"
+      },
+      {
+        "datasource": null,
+        "description": "Attribute list for device sys/database/2",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 16,
+          "w": 12,
+          "x": 0,
+          "y": 36
+        },
+        "id": 2,
+        "options": {
+          "dense": false,
+          "header": true,
+          "pagination": false,
+          "tablehead": true
+        },
+        "targets": [
+          {
+            "expr": "device_attribute{device=\"sys/database/2\"}  ",
+            "interval": "",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Attribute list for device sys/database/2",
+        "type": "inaf-ska-tango-device-view"
+      }
+    ],
+    "refresh": "30s",
+    "schemaVersion": 25,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-5m",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ]
+    },
+    "timezone": "",
+    "title": "Tango Dashboard",
+    "uid": "Hp30OQRMk",
+    "version": 76
+  }
