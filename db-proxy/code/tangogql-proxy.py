@@ -21,16 +21,17 @@ def login(username, password):
 def mutation():
     app.logger.info(request.values)
     app.logger.info(request.data)
-    try:
-        jsonInput = json.loads(request.data)
-        app.logger.info(json.dumps(jsonInput))
-        app.logger.info(jsonInput['username'])
-        app.logger.info(jsonInput['password'])
-        app.logger.info(jsonInput['mutation'])
-        cookies = {'webjive_jwt': login(jsonInput['username'],jsonInput['password'])}
-        r = requests.post(url=tangogql_url, json=json.loads(jsonInput['mutation']), cookies=cookies)
-        app.logger.info("response from tangogql=" + r.text)
-        return r.text
-    except Exception as ex:
-        app.logger.error(str(ex))
-
+    jsonInput = json.loads(request.data)
+    app.logger.info(json.dumps(jsonInput))
+    app.logger.info(jsonInput['username'])
+    app.logger.info(jsonInput['password'])
+    app.logger.info(jsonInput['mutation'])
+    cookies = {'webjive_jwt': login(jsonInput['username'],jsonInput['password'])}
+    r = requests.post(url=tangogql_url, json=json.loads(jsonInput['mutation']), cookies=cookies)
+    app.logger.info("response from tangogql=" + r.text)
+    response = app.response_class(
+        response=json.dumps(json.loads(r.text)),
+        status=200,
+        mimetype='application/json'
+    )
+    return response

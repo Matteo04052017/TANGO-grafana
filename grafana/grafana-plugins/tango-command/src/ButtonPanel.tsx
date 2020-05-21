@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { PanelProps } from '@grafana/data';
-import { SimpleOptions } from 'types';
+import { ButtonOptions } from 'types';
+import './button.css';
 
-interface Props extends PanelProps<SimpleOptions> {}
+interface Props extends PanelProps<ButtonOptions> {}
 
-export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) => {
-  const [error, setError] = useState(null);
+export const ButtonPanel: React.FC<Props> = ({ options, data, width, height }) => {
+  const [error, setError] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
   const [dataRes, setDataRes] = useState('');
 
-  let handleClick = () => {
-    fetch(options.url, {
+  const handleClick = async () => {
+    const result = await fetch(options.url, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'no-cors', // no-cors, *cors, same-origin
+      mode: 'cors', // no-cors, *cors, same-origin
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       credentials: 'same-origin', // include, *same-origin, omit
       headers: {
@@ -26,26 +27,28 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
         username: options.username,
         password: options.password,
       }), // body data type must match "Content-Type" header
-    }).then(
-      result => {
-        setIsLoaded(true);
-        console.log(result);
-        setDataRes(result.toString());
-      },
-      // Note: it's important to handle errors here
-      // instead of a catch() block so that we don't swallow
-      // exceptions from actual bugs in components.
-      error => {
-        setIsLoaded(true);
-        setError(error);
-      }
-    );
+    });
+    setIsLoaded(true);
+    console.log(result);
+    const json = await result.json();
+    console.log(json);
+    console.log(result.body);
+    console.log(result.bodyUsed);
+    console.log(typeof json);
+    setDataRes(JSON.stringify(json));
+    if (!result.ok) {
+      setError(result.statusText);
+    }
   };
 
   if (error) {
     return <div>Error: {error}</div>;
   } else if (!isLoaded) {
-    return <button onClick={handleClick}>Call command!</button>;
+    return (
+      <button className="mybutton" onClick={handleClick}>
+        {options.button_text}
+      </button>
+    );
   } else {
     return <div>{dataRes}</div>;
   }

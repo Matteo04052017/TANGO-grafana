@@ -1,9 +1,9 @@
 {
   "type": "panel",
-  "name": "TANGO Device view",
+  "name": "TANGO Attribute table",
   "id": "inaf-ska-tango-device-view",
   "info": {
-    "description": "Tango device view",
+    "description": "TANGO Attribute table",
     "author": {
       "name": "Matteo Di Carlo",
       "url": "www.inaf.it"
@@ -11,6 +11,7 @@
     "keywords": [
       "tango",
       "device",
+      "attribute",
       "view"
     ],
     "logos": {
