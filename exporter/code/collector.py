@@ -84,6 +84,7 @@ class CustomCollector(object):
         total_count = 0
         read_count = 0
         error_count = 0
+        error_attr_count = 0
         scalar_count = 0
         spectrum_count = 0
         image_count = 0
@@ -91,94 +92,103 @@ class CustomCollector(object):
         server_list = self.db.get_server_list()
         i = 0
         while i < len(server_list):
+            # https://pytango.readthedocs.io/en/stable/database.html#tango.Database.get_device_class_list
             class_list = self.db.get_device_class_list(server_list[i])
             j = 0
             while j < len(class_list):
                 try:
+                    if "dserver" in class_list[j]:
+                        j += 2
+                        continue
                     dev = DeviceProxy(class_list[j])
-                    dev.set_timeout_millis(100)
+                    #print(class_list[j])
+                    dev.set_timeout_millis(10)
                     attr_list = dev.attribute_list_query()
                     for attr_info in attr_list:
-                        total_count += 1
-                        #  1: tango._tango.CmdArgType.DevBoolean,
-                        #  2: tango._tango.CmdArgType.DevShort,
-                        #  3: tango._tango.CmdArgType.DevLong,
-                        #  4: tango._tango.CmdArgType.DevFloat,
-                        #  5: tango._tango.CmdArgType.DevDouble,
-                        #  6: tango._tango.CmdArgType.DevUShort,
-                        #  7: tango._tango.CmdArgType.DevULong,
-                        #  8: tango._tango.CmdArgType.DevString, 
-                        #  19: tango._tango.CmdArgType.DevState,
-                        #  23: tango._tango.CmdArgType.DevLong64,
-                        #  24: tango._tango.CmdArgType.DevULong64,
-                        #  27: tango._tango.CmdArgType.DevInt,
-                        #  29: tango._tango.CmdArgType.DevEnum, 
-                        if(attr_info.data_format == AttrDataFormat.SCALAR):
-                            res = self.add_to_metric(dev, attr_info, attribute_metrics)
-                            if(res > 0):
-                                read_count = read_count + res
-                                scalar_count += 1
+                        try:
+                            #print("       " +attr_info.name)
+
+                            total_count += 1
+                            #  1: tango._tango.CmdArgType.DevBoolean,
+                            #  2: tango._tango.CmdArgType.DevShort,
+                            #  3: tango._tango.CmdArgType.DevLong,
+                            #  4: tango._tango.CmdArgType.DevFloat,
+                            #  5: tango._tango.CmdArgType.DevDouble,
+                            #  6: tango._tango.CmdArgType.DevUShort,
+                            #  7: tango._tango.CmdArgType.DevULong,
+                            #  8: tango._tango.CmdArgType.DevString, 
+                            #  19: tango._tango.CmdArgType.DevState,
+                            #  23: tango._tango.CmdArgType.DevLong64,
+                            #  24: tango._tango.CmdArgType.DevULong64,
+                            #  27: tango._tango.CmdArgType.DevInt,
+                            #  29: tango._tango.CmdArgType.DevEnum, 
+                            if(attr_info.data_format == AttrDataFormat.SCALAR):
+                                res = self.add_to_metric(dev, attr_info, attribute_metrics)
+                                if(res > 0):
+                                    read_count = read_count + res
+                                    scalar_count += 1
+                                else:
+                                    # {0: tango._tango.CmdArgType.DevVoid,
+                                    #  28: tango._tango.CmdArgType.DevEncoded, 
+                                    #  30: tango._tango.CmdArgType.DevPipeBlob,
+                                    #  22: tango._tango.CmdArgType.DevUChar,
+                                    #  20: tango._tango.CmdArgType.ConstDevString,
+                                    not_managed_attribute_count += 1
+                                    #print("*******NOT MANAGED: "+attr_info.name)
+                            #  9: tango._tango.CmdArgType.DevVarCharArray,
+                            #  10: tango._tango.CmdArgType.DevVarShortArray,
+                            #  11: tango._tango.CmdArgType.DevVarLongArray,
+                            #  12: tango._tango.CmdArgType.DevVarFloatArray,
+                            #  13: tango._tango.CmdArgType.DevVarDoubleArray,
+                            #  14: tango._tango.CmdArgType.DevVarUShortArray,
+                            #  15: tango._tango.CmdArgType.DevVarULongArray,
+                            #  16: tango._tango.CmdArgType.DevVarStringArray,
+                            #  17: tango._tango.CmdArgType.DevVarLongStringArray,
+                            #  18: tango._tango.CmdArgType.DevVarDoubleStringArray,
+                            #  21: tango._tango.CmdArgType.DevVarBooleanArray,
+                            #  25: tango._tango.CmdArgType.DevVarLong64Array,
+                            #  26: tango._tango.CmdArgType.DevVarULong64Array,
+                            #  31: tango._tango.CmdArgType.DevVarStateArray}
+                            elif(attr_info.data_format == AttrDataFormat.SPECTRUM):
+                                res = self.add_to_metric_spectrum(dev, attr_info, attribute_metrics)
+                                if(res <= 0):
+                                    not_managed_attribute_count += 1
+                                    #print("*******NOT MANAGED: "+attr_info.name)
+                                else:
+                                    spectrum_count += 1
+                                    read_count += 1
+                                
+                            elif(attr_info.data_format == AttrDataFormat.IMAGE):
+                                # res = self.add_to_metric_image(dev, attr_info, attribute_metrics)
+                                # if(res <= 0):
+                                not_managed_attribute_count += 1
+                                #print("*******NOT MANAGED: "+attr_info.name)
+                                image_count += 1
+                                # read_count += 1
                             else:
-                                # {0: tango._tango.CmdArgType.DevVoid,
-                                #  28: tango._tango.CmdArgType.DevEncoded, 
-                                #  30: tango._tango.CmdArgType.DevPipeBlob,
-                                #  22: tango._tango.CmdArgType.DevUChar,
-                                #  20: tango._tango.CmdArgType.ConstDevString,
+                                # AttrDataFormat.FMT_UNKNOWN
                                 not_managed_attribute_count += 1
-                                print("*******NOT MANAGED**********")
-                                print(attr_info)
-                                print("****************************")
-                        #  9: tango._tango.CmdArgType.DevVarCharArray,
-                        #  10: tango._tango.CmdArgType.DevVarShortArray,
-                        #  11: tango._tango.CmdArgType.DevVarLongArray,
-                        #  12: tango._tango.CmdArgType.DevVarFloatArray,
-                        #  13: tango._tango.CmdArgType.DevVarDoubleArray,
-                        #  14: tango._tango.CmdArgType.DevVarUShortArray,
-                        #  15: tango._tango.CmdArgType.DevVarULongArray,
-                        #  16: tango._tango.CmdArgType.DevVarStringArray,
-                        #  17: tango._tango.CmdArgType.DevVarLongStringArray,
-                        #  18: tango._tango.CmdArgType.DevVarDoubleStringArray,
-                        #  21: tango._tango.CmdArgType.DevVarBooleanArray,
-                        #  25: tango._tango.CmdArgType.DevVarLong64Array,
-                        #  26: tango._tango.CmdArgType.DevVarULong64Array,
-                        #  31: tango._tango.CmdArgType.DevVarStateArray}
-                        elif(attr_info.data_format == AttrDataFormat.SPECTRUM):
-                            res = self.add_to_metric_spectrum(dev, attr_info, attribute_metrics)
-                            if(res <= 0):
-                                not_managed_attribute_count += 1
-                                print("*******NOT MANAGED**********")
-                                print(attr_info)
-                                print("****************************")
-                            spectrum_count += 1
-                            read_count += 1
-                            
-                        elif(attr_info.data_format == AttrDataFormat.IMAGE):
-                            res = self.add_to_metric_image(dev, attr_info, attribute_metrics)
-                            if(res <= 0):
-                                not_managed_attribute_count += 1
-                                print("*******NOT MANAGED**********")
-                                print(attr_info)
-                                print("****************************")
-                            image_count += 1
-                            read_count += 1
-                        else:
-                            # AttrDataFormat.FMT_UNKNOWN
-                            not_managed_attribute_count += 1
-                            print("*******NOT MANAGED**********")
-                            print(attr_info)
-                            print("****************************")
-                except Exception as e: 
-                    print ("Could not connect to the '"+class_list[j]+"' DeviceProxy.\r\n")
-                    print (e)
+                                #print("*******NOT MANAGED: "+attr_info.name)
+                        except Exception as e1: 
+                            #print ("Could not connect to the '"+ class_list[j] + "." + attr_info.name+"' Attribute.\r\n")
+                            #print(e1)
+                            error_attr_count += 1
+                except Exception as e2: 
+                    #print ("Could not connect to the '"+class_list[j]+"' DeviceProxy.\r\n")
+                    #print(e2)
                     error_count += 1
                 j += 2
             i += 1
         
         yield attribute_metrics
 
-        errors = GaugeMetricFamily("error_count", 'Total number of errors reading the attributes')
+        errors = GaugeMetricFamily("error_count", 'Total number of errors reading the devices')
         errors.add_metric([], error_count)
         yield errors
+
+        errors_attr = GaugeMetricFamily("error_attr_count", 'Total number of errors reading the device attributes')
+        errors_attr.add_metric([], error_attr_count)
+        yield errors_attr
 
         attribute_count = GaugeMetricFamily("attribute_count", 'Total number of attributes')
         attribute_count.add_metric([], total_count)
