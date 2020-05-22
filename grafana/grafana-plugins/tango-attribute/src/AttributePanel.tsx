@@ -37,6 +37,12 @@ const customStyles = {
 // https://github.com/jbetancur/react-data-table-component#columns
 const columns = [
   {
+    name: 'Device',
+    selector: 'device',
+    sortable: true,
+    width: '230px',
+  },
+  {
     name: 'Name',
     selector: 'name',
     sortable: true,
@@ -101,48 +107,92 @@ export const AttributePanel: React.FC<Props> = ({ options, data, width, height }
       this_value = device_attributes[i]?.labels?.str_value;
     }
 
-    //console.log('adding ' + device_attributes[i]?.labels?.name + ' value=' + this_value + ']');
     attributes.push({
+      device: device_attributes[i]?.labels?.device,
       name: device_attributes[i]?.labels?.name,
       value: this_value,
     });
   }
 
-  const spectrum_unique_name: any[] = [];
-  for (let i = 0; i < device_attributes_spectrum.length; i++) {
-    let this_name = device_attributes_spectrum[i]?.labels?.name;
-    if (spectrum_unique_name.findIndex(name => name === this_name) < 0) {
-      spectrum_unique_name.push(this_name);
+  let device_attributes_spectrum_sorted = device_attributes_spectrum.sort((a, b) => {
+    if (a?.labels?.x && b?.labels?.x) {
+      return parseInt(a?.labels?.x, 10) - parseInt(b?.labels?.x, 10);
+    } else {
+      return 0;
+    }
+  });
+
+  for (let i = 0; i < device_attributes_spectrum_sorted.length; i++) {
+    let this_device = device_attributes_spectrum_sorted[i]?.labels?.device;
+    let this_name = device_attributes_spectrum_sorted[i]?.labels?.name;
+
+    console.log('processing ' + this_name);
+    if (!this_name) {
+      continue;
+    }
+
+    let j = device_attributes_spectrum_sorted[i]?.values.length;
+    if (!j) {
+      continue;
+    }
+    let this_value = device_attributes_spectrum_sorted[i]?.values?.get(j - 1);
+    if (
+      device_attributes_spectrum_sorted[i]?.labels?.type === 'string' ||
+      device_attributes_spectrum_sorted[i]?.labels?.type === 'state'
+    ) {
+      this_value = device_attributes_spectrum_sorted[i]?.labels?.str_value;
+    }
+
+    let already_stored = attributes.find(attr => attr.name === this_name && attr.device === this_device);
+    if (already_stored) {
+      already_stored.value = already_stored.value + ';\t\t' + this_value;
+    } else {
+      attributes.push({
+        device: this_device,
+        name: this_name,
+        value: this_value,
+      });
     }
   }
 
-  for (let i = 0; i < spectrum_unique_name.length; i++) {
-    let this_spectrum = device_attributes_spectrum.find(attr => attr?.labels?.name === spectrum_unique_name[i]);
-    if (!this_spectrum) {
-      continue;
-    }
-    let dimx = this_spectrum.labels?.dim_x;
-    if (!dimx) {
-      continue;
-    }
-    let this_x_values = [];
-    for (let x = 0; x < parseInt(dimx, 10); x++) {
-      let this_attr = device_attributes_spectrum.find(attr => attr?.labels?.x === '' + x);
-      if (!this_attr) {
-        continue;
-      }
-      let j = this_attr.values.length;
-      if (!j) {
-        j = 1;
-      }
-      this_x_values.push(this_attr.values?.get(j - 1));
-    }
+  // const spectrum_unique_name: any[] = [];
+  // for (let i = 0; i < device_attributes_spectrum.length; i++) {
+  //   let this_name = device_attributes_spectrum[i]?.labels?.name;
+  //   console.log('name ' + this_name);
+  //   if (this_name && spectrum_unique_name.findIndex(name => name === this_name) < 0) {
+  //     console.log('adding ' + this_name);
+  //     spectrum_unique_name.push(this_name);
+  //   }
+  // }
 
-    attributes.push({
-      name: spectrum_unique_name[i],
-      value: '[' + this_x_values.join(',') + ']',
-    });
-  }
+  // for (let i = 0; i < spectrum_unique_name.length; i++) {
+  //   let this_spectrum = device_attributes_spectrum.find(attr => attr?.labels?.name === spectrum_unique_name[i]);
+  //   if (!this_spectrum) {
+  //     continue;
+  //   }
+  //   let dimx = this_spectrum.labels?.dim_x;
+  //   if (!dimx) {
+  //     continue;
+  //   }
+  //   let this_x_values = [];
+  //   for (let x = 0; x < parseInt(dimx, 10); x++) {
+  //     let this_attr = device_attributes_spectrum.find(attr => attr?.labels?.x === '' + x);
+  //     if (!this_attr) {
+  //       continue;
+  //     }
+  //     let j = this_attr.values.length;
+  //     if (!j) {
+  //       j = 1;
+  //     }
+  //     this_x_values.push(this_attr.values?.get(j - 1));
+  //   }
+
+  //   attributes.push({
+  //     device: this_spectrum.labels?.device,
+  //     name: spectrum_unique_name[i],
+  //     value: '[' + this_x_values.join(',') + ']',
+  //   });
+  // }
 
   // let last_name = 'init';
   // let last_value = '[';
