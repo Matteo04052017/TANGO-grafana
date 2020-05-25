@@ -1,6 +1,7 @@
 import requests
 import json
 import sys
+import os
 from time import sleep
 from flask import Flask
 from flask import request
@@ -9,8 +10,8 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-login_url = 'http://webjive-webjive-test.integration.svc.cluster.local:8080/login'
-tangogql_url = 'http://webjive-webjive-test.integration.svc.cluster.local:5004/db'
+login_url = os.environ.get('AUTH_URL')
+tangogql_url =  os.environ.get('TANGOGQL_URL')
 
 def login(username, password):
     jsonLogin={"username":username,"password":password}

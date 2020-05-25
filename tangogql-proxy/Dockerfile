@@ -6,6 +6,5 @@ RUN pip install -r /code/pip-requirements.txt
 WORKDIR /code
 ENV PYTHONPATH '/code/'
 ENV FLASK_APP '/code/tangogql-proxy.py'
-ENV FLASK_DEBUG 1
 
 CMD ["flask" , "run", "--host=0.0.0.0"]

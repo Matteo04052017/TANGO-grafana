@@ -1,0 +1,39 @@
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: tango-gql-service
+#   namespace: tango-grafana
+# spec:
+#   selector:
+#     app: tango-gql-service
+#   type: NodePort
+#   ports:
+#   - protocol: TCP
+#     port: 5000
+#     targetPort: 5000
+#     nodePort: 32764
+
+# ---
+# apiVersion: apps/v1
+# kind: StatefulSet
+# metadata:
+#   name: tango-gql-deployment
+#   namespace: tango-grafana
+#   labels:
+#     app: tango-gql
+# spec:
+#   serviceName: tango-gql-service
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: tango-gql
+#   template:
+#     metadata:
+#       labels:
+#         app: tango-gql
+#     spec:
+#       containers:
+#       - name: tangogql-proxy
+#         image: tangogql-proxy:1.0.0
+#         ports:
+#         - containerPort: 5000

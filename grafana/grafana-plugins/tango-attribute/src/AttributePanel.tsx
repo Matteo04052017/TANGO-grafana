@@ -130,7 +130,7 @@ export const AttributePanel: React.FC<Props> = ({ options, data, width, height }
     let this_device = device_attributes_spectrum_sorted[i]?.labels?.device;
     let this_name = device_attributes_spectrum_sorted[i]?.labels?.name;
 
-    console.log('processing ' + this_name);
+    // console.log('processing ' + this_name);
     if (!this_name) {
       continue;
     }
