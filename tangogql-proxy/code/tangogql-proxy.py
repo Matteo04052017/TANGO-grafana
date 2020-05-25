@@ -9,8 +9,8 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-login_url = 'http://192.168.93.61:31822/login'
-tangogql_url = 'http://192.168.93.61:30608/db'
+login_url = 'http://webjive-webjive-test.integration.svc.cluster.local:8080/login'
+tangogql_url = 'http://webjive-webjive-test.integration.svc.cluster.local:5004/db'
 
 def login(username, password):
     jsonLogin={"username":username,"password":password}

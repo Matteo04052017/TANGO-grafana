@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 3,
-  "iteration": 1590141202747,
+  "iteration": 1590409075298,
   "links": [],
   "panels": [
     {
@@ -65,7 +65,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "mean"
+            "lastNotNull"
           ],
           "values": false
         }
@@ -81,7 +81,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Total number of attributes",
+      "title": "Attributes count",
       "type": "stat"
     },
     {
@@ -116,7 +116,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "mean"
+            "lastNotNull"
           ],
           "values": false
         }
@@ -132,7 +132,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Total number of read attributes",
+      "title": "Read attributes count",
       "type": "stat"
     },
     {
@@ -167,7 +167,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "mean"
+            "lastNotNull"
           ],
           "values": false
         }
@@ -183,7 +183,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Total number of spectrum attributes",
+      "title": "Spectrum attributes count",
       "type": "stat"
     },
     {
@@ -222,7 +222,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "mean"
+            "lastNotNull"
           ],
           "values": false
         }
@@ -238,7 +238,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Total number of image attributes",
+      "title": "Image attributes",
       "type": "stat"
     },
     {
@@ -265,7 +265,7 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 3,
+        "w": 2,
         "x": 12,
         "y": 1
       },
@@ -277,7 +277,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "mean"
+            "lastNotNull"
           ],
           "values": false
         }
@@ -321,7 +321,62 @@
       "gridPos": {
         "h": 4,
         "w": 3,
-        "x": 15,
+        "x": 14,
+        "y": 1
+      },
+      "id": 37,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "values": false
+        }
+      },
+      "pluginVersion": "7.0.0-beta3",
+      "targets": [
+        {
+          "expr": "error_attr_count",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Error attribute count",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 17,
         "y": 1
       },
       "id": 16,
@@ -362,7 +417,7 @@
       },
       "gridPos": {
         "h": 13,
-        "w": 18,
+        "w": 20,
         "x": 0,
         "y": 5
       },
@@ -386,7 +441,7 @@
       "timeShift": null,
       "title": "TANGO Database information",
       "type": "ryantxu-ajax-panel",
-      "url": "http://192.168.93.61:32433/tango/rest/rc4/hosts/databaseds-tango-base-test/10000/",
+      "url": "http://192.168.93.61:31514/tango/rest/rc4/hosts/databaseds-tango-base-test/10000/",
       "withCredentials": true
     },
     {
@@ -414,7 +469,7 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 19,
+        "w": 20,
         "x": 0,
         "y": 19
       },
@@ -471,7 +526,7 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 13,
-        "w": 9,
+        "w": 10,
         "x": 0,
         "y": 25
       },
@@ -574,7 +629,7 @@
       "gridPos": {
         "h": 13,
         "w": 10,
-        "x": 9,
+        "x": 10,
         "y": 25
       },
       "hiddenSeries": false,
@@ -674,7 +729,7 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 12,
-        "w": 9,
+        "w": 10,
         "x": 0,
         "y": 38
       },
@@ -776,7 +831,7 @@
       "gridPos": {
         "h": 12,
         "w": 10,
-        "x": 9,
+        "x": 10,
         "y": 38
       },
       "hiddenSeries": false,
@@ -888,8 +943,8 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 12,
-        "w": 13,
+        "h": 13,
+        "w": 11,
         "x": 0,
         "y": 51
       },
@@ -977,16 +1032,16 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 15,
-        "w": 9,
-        "x": 13,
+        "h": 25,
+        "w": 11,
+        "x": 11,
         "y": 51
       },
       "id": 19,
       "options": {
         "dense": true,
         "header": true,
-        "pagination": false,
+        "pagination": true,
         "tablehead": true
       },
       "targets": [
@@ -1013,9 +1068,9 @@
       },
       "gridPos": {
         "h": 12,
-        "w": 13,
+        "w": 11,
         "x": 0,
-        "y": 63
+        "y": 64
       },
       "header_js": "{}",
       "id": 5,
@@ -1037,7 +1092,7 @@
       "timeShift": null,
       "title": "$device  - List commands",
       "type": "ryantxu-ajax-panel",
-      "url": "http://192.168.93.61:32433/tango/rest/rc4/hosts/databaseds-tango-base-test/10000/devices/$device/commands",
+      "url": "http://192.168.93.61:31514/tango/rest/rc4/hosts/databaseds-tango-base-test/10000/devices/$device/commands",
       "withCredentials": true
     },
     {
@@ -1047,7 +1102,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 75
+        "y": 76
       },
       "id": 34,
       "panels": [],
@@ -1070,10 +1125,10 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 22,
-        "w": 13,
+        "h": 17,
+        "w": 11,
         "x": 0,
-        "y": 76
+        "y": 77
       },
       "hiddenSeries": false,
       "id": 35,
@@ -1159,10 +1214,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 22,
-        "w": 10,
-        "x": 13,
-        "y": 76
+        "h": 17,
+        "w": 11,
+        "x": 11,
+        "y": 77
       },
       "id": 36,
       "options": {
@@ -1191,12 +1246,140 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 98
+        "y": 94
       },
       "id": 32,
       "panels": [],
-      "title": "Commands",
+      "title": "ObsState and commands",
       "type": "row"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 15,
+        "w": 8,
+        "x": 0,
+        "y": 95
+      },
+      "id": 41,
+      "options": {
+        "dense": true,
+        "header": false,
+        "pagination": true,
+        "tablehead": false
+      },
+      "targets": [
+        {
+          "expr": "device_attribute{name=\"obsState\"}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "obsState",
+      "type": "inaf-ska-tango-device-view"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 15,
+        "w": 12,
+        "x": 8,
+        "y": 95
+      },
+      "hiddenSeries": false,
+      "id": 39,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "device_attribute{name=\"obsState\"}",
+          "interval": "",
+          "legendFormat": "{{device}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "obsState",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
       "datasource": null,
@@ -1211,7 +1394,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 99
+        "y": 110
       },
       "id": 7,
       "options": {
@@ -1238,15 +1421,10 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "mid_csp_cbf/pssconfig/02 + mid_csp_cbf/sendconfig/02 + mid_d0001/elt/master + mid_d0002/elt/master + mid_d0003/elt/master + mid_d0004/elt/master + dserver/midcspcapabilitymonitor/monitor",
+          "text": "sys/database/2 + sys/tg_test/1",
           "value": [
-            "mid_csp_cbf/pssconfig/02",
-            "mid_csp_cbf/sendconfig/02",
-            "mid_d0001/elt/master",
-            "mid_d0002/elt/master",
-            "mid_d0003/elt/master",
-            "mid_d0004/elt/master",
-            "dserver/midcspcapabilitymonitor/monitor"
+            "sys/database/2",
+            "sys/tg_test/1"
           ]
         },
         "datasource": "Prometheus",
@@ -1316,5 +1494,5 @@
   "timezone": "",
   "title": "Tango Dashboard",
   "uid": "Hp30OQRMk",
-  "version": 94
+  "version": 107
 }
