@@ -26,8 +26,9 @@ class CustomCollector(object):
             metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_value.value),'string', str(attr_value.dim_x), str(attr_value.dim_y), '0', '0'], 1)
             return 1
         elif(attr_info.data_type == ArgType.DevEnum):
+            attr_config = dev.get_attribute_config(attr_info.name)
             attr_value = dev.read_attribute(attr_info.name)
-            metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_value.value),'enum', str(attr_value.dim_x), str(attr_value.dim_y), '0', '0'], int(attr_value.value))
+            metric.add_metric([dev.dev_name(), attr_info.name, attr_info.label, str(attr_config.enum_labels[attr_value.value]),'enum', str(attr_value.dim_x), str(attr_value.dim_y), '0', '0'], int(attr_value.value))
             return 1
         elif(attr_info.data_type == ArgType.DevState):
             attr_value = dev.read_attribute(attr_info.name)
@@ -38,7 +39,7 @@ class CustomCollector(object):
 
     def add_to_metric_spectrum(self, dev, attr_info, metric):
         attr_value = dev.read_attribute(attr_info.name)
-        for x in range(int(attr_value.dim_x)-1):
+        for x in range(int(attr_value.dim_x)):
             if(attr_info.data_type == ArgType.DevShort or attr_info.data_type == ArgType.DevLong or
                 attr_info.data_type == ArgType.DevUShort or attr_info.data_type == ArgType.DevULong or
                 attr_info.data_type == ArgType.DevLong64 or attr_info.data_type == ArgType.DevULong64 or
@@ -59,8 +60,8 @@ class CustomCollector(object):
 
     def add_to_metric_image(self, dev, attr_info, metric):
         attr_value = dev.read_attribute(attr_info.name)
-        for y in range(int(attr_value.dim_y)-1): 
-            for x in range(int(attr_value.dim_x)-1):
+        for y in range(int(attr_value.dim_y)): 
+            for x in range(int(attr_value.dim_x)):
                 if(attr_info.data_type == ArgType.DevShort or attr_info.data_type == ArgType.DevLong or
                     attr_info.data_type == ArgType.DevUShort or attr_info.data_type == ArgType.DevULong or
                     attr_info.data_type == ArgType.DevLong64 or attr_info.data_type == ArgType.DevULong64 or

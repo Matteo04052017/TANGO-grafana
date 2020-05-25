@@ -103,7 +103,11 @@ export const AttributePanel: React.FC<Props> = ({ options, data, width, height }
       j = 1;
     }
     let this_value = device_attributes[i]?.values?.get(j - 1);
-    if (device_attributes[i]?.labels?.type === 'string' || device_attributes[i]?.labels?.type === 'state') {
+    if (
+      device_attributes[i]?.labels?.type === 'string' ||
+      device_attributes[i]?.labels?.type === 'state' ||
+      device_attributes[i]?.labels?.type === 'enum'
+    ) {
       this_value = device_attributes[i]?.labels?.str_value;
     }
 
