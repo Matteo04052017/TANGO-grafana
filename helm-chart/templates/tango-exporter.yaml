@@ -1,0 +1,49 @@
+{{ $count := .Values.replicas | int }}
+
+{{ range until $count }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tango-exporter-service-{{ . }}
+  namespace: tango-grafana
+spec:
+  selector:
+    app: tango-exporter-{{ . }}
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: tango-exporter-deployment-{{ . }}
+  namespace: tango-grafana
+  labels:
+    app: tango-exporter-{{ . }}
+spec:
+  serviceName: tango-exporter-service-{{ . }}
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tango-exporter-{{ . }}
+  template:
+    metadata:
+      labels:
+        app: tango-exporter-{{ . }}
+    spec:
+      containers:
+      - name: tango-exporter
+        image: tango-exporter:1.0.0
+        ports:
+        - containerPort: 80
+        env:
+        - name: TANGO_HOST
+          value: databaseds-tango-base-test.integration.svc.cluster.local:10000
+        command: ["python"]
+        args: ["/code/collector.py", "-i {{ . }}", "-r {{ $count }}"]
+
+{{end}}

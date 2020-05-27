@@ -15,8 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 3,
-  "iteration": 1590409075298,
+  "id": 1,
+  "iteration": 1590591547870,
   "links": [],
   "panels": [
     {
@@ -73,7 +73,7 @@
       "pluginVersion": "7.0.0-beta3",
       "targets": [
         {
-          "expr": "attribute_count ",
+          "expr": "sum(attribute_count)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -124,7 +124,7 @@
       "pluginVersion": "7.0.0-beta3",
       "targets": [
         {
-          "expr": "attribute_read_count ",
+          "expr": "sum(attribute_read_count)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -175,7 +175,7 @@
       "pluginVersion": "7.0.0-beta3",
       "targets": [
         {
-          "expr": "spectrum_attribute_count ",
+          "expr": "sum(spectrum_attribute_count)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -230,7 +230,7 @@
       "pluginVersion": "7.0.0-beta3",
       "targets": [
         {
-          "expr": "image_attribute_count ",
+          "expr": "sum(image_attribute_count)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -285,7 +285,7 @@
       "pluginVersion": "7.0.0-beta3",
       "targets": [
         {
-          "expr": "error_count ",
+          "expr": "sum(error_count)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -340,7 +340,7 @@
       "pluginVersion": "7.0.0-beta3",
       "targets": [
         {
-          "expr": "error_attr_count",
+          "expr": "sum(error_attr_count)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -395,7 +395,7 @@
       "pluginVersion": "7.0.0-beta3",
       "targets": [
         {
-          "expr": "not_managed_attribute_count",
+          "expr": "sum(not_managed_attribute_count)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -441,11 +441,11 @@
       "timeShift": null,
       "title": "TANGO Database information",
       "type": "ryantxu-ajax-panel",
-      "url": "http://192.168.93.61:31514/tango/rest/rc4/hosts/databaseds-tango-base-test/10000/",
+      "url": "http://tango.rest.integration.engageska-portugal.pt/tango/rest/rc4/hosts/databaseds-tango-base-test/10000/",
       "withCredentials": true
     },
     {
-      "collapsed": false,
+      "collapsed": true,
       "datasource": null,
       "gridPos": {
         "h": 1,
@@ -454,465 +454,466 @@
         "y": 18
       },
       "id": 28,
-      "panels": [],
-      "title": "DatabaseDS",
-      "type": "row"
-    },
-    {
-      "datasource": null,
-      "description": "Attribute list for device sys/database/2",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 20,
-        "x": 0,
-        "y": 19
-      },
-      "id": 2,
-      "options": {
-        "dense": false,
-        "header": true,
-        "pagination": false,
-        "tablehead": true
-      },
-      "targets": [
+      "panels": [
         {
-          "expr": "device_attribute{device=\"sys/database/2\", name=~\"State|Status|StoredProcedureRelease\"}  ",
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Attribute list for device sys/database/2",
-      "type": "inaf-ska-tango-device-view"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "align": null
+          "datasource": null,
+          "description": "Attribute list for device sys/database/2",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {}
+            },
+            "overrides": []
           },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
+          "gridPos": {
+            "h": 6,
+            "w": 20,
+            "x": 0,
+            "y": 19
+          },
+          "id": 2,
+          "options": {
+            "dense": false,
+            "header": true,
+            "pagination": false,
+            "tablehead": true
+          },
+          "targets": [
+            {
+              "expr": "device_attribute{device=\"sys/database/2\", name=~\"State|Status|StoredProcedureRelease\"}  ",
+              "interval": "",
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Attribute list for device sys/database/2",
+          "type": "inaf-ska-tango-device-view"
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null
               },
-              {
-                "color": "red",
-                "value": 80
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
               }
+            },
+            "overrides": []
+          },
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 13,
+            "w": 10,
+            "x": 0,
+            "y": 25
+          },
+          "hiddenSeries": false,
+          "id": 21,
+          "legend": {
+            "alignAsTable": false,
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "connected",
+          "options": {
+            "dataLinks": []
+          },
+          "percentage": false,
+          "pluginVersion": "7.0.0-beta3",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "device_attribute{device=\"sys/database/2\",name=\"Timing_average\"}",
+              "format": "time_series",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "{{x}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Timing average on Databaseds",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "series",
+            "name": null,
+            "show": true,
+            "values": [
+              "current"
             ]
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
           }
         },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 13,
-        "w": 10,
-        "x": 0,
-        "y": 25
-      },
-      "hiddenSeries": false,
-      "id": 21,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": false,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "connected",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pluginVersion": "7.0.0-beta3",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
-      "targets": [
         {
-          "expr": "device_attribute{device=\"sys/database/2\",name=\"Timing_average\"}",
-          "format": "time_series",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "{{x}}",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Timing average on Databaseds",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "series",
-        "name": null,
-        "show": true,
-        "values": [
-          "current"
-        ]
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {}
+            },
+            "overrides": []
+          },
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 13,
+            "w": 10,
+            "x": 10,
+            "y": 25
+          },
+          "hiddenSeries": false,
+          "id": 22,
+          "legend": {
+            "alignAsTable": false,
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "connected",
+          "options": {
+            "dataLinks": []
+          },
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "device_attribute{device=\"sys/database/2\",name=\"Timing_minimum\"}",
+              "format": "time_series",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "{{x}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Timing minimum on Databaseds",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "series",
+            "name": null,
+            "show": true,
+            "values": [
+              "current"
+            ]
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
         },
         {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 13,
-        "w": 10,
-        "x": 10,
-        "y": 25
-      },
-      "hiddenSeries": false,
-      "id": 22,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": false,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "connected",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "device_attribute{device=\"sys/database/2\",name=\"Timing_minimum\"}",
-          "format": "time_series",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "{{x}}",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Timing minimum on Databaseds",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "series",
-        "name": null,
-        "show": true,
-        "values": [
-          "current"
-        ]
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 12,
-        "w": 10,
-        "x": 0,
-        "y": 38
-      },
-      "hiddenSeries": false,
-      "id": 24,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": false,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "connected",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "device_attribute{device=\"sys/database/2\",name=\"Timing_calls\"}",
-          "format": "time_series",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "{{x}}",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Timing calls on Databaseds",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "series",
-        "name": null,
-        "show": true,
-        "values": [
-          "current"
-        ]
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {}
+            },
+            "overrides": []
+          },
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 12,
+            "w": 10,
+            "x": 0,
+            "y": 38
+          },
+          "hiddenSeries": false,
+          "id": 24,
+          "legend": {
+            "alignAsTable": false,
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "connected",
+          "options": {
+            "dataLinks": []
+          },
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "device_attribute{device=\"sys/database/2\",name=\"Timing_calls\"}",
+              "format": "time_series",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "{{x}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Timing calls on Databaseds",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "series",
+            "name": null,
+            "show": true,
+            "values": [
+              "current"
+            ]
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
         },
         {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {}
+            },
+            "overrides": []
+          },
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 12,
+            "w": 10,
+            "x": 10,
+            "y": 38
+          },
+          "hiddenSeries": false,
+          "id": 23,
+          "legend": {
+            "alignAsTable": false,
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "connected",
+          "options": {
+            "dataLinks": []
+          },
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "device_attribute{device=\"sys/database/2\",name=\"Timing_maximum\"}",
+              "format": "time_series",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "{{x}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Timing maximum on Databaseds",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "series",
+            "name": null,
+            "show": true,
+            "values": [
+              "current"
+            ]
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
         }
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 12,
-        "w": 10,
-        "x": 10,
-        "y": 38
-      },
-      "hiddenSeries": false,
-      "id": 23,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": false,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "connected",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "device_attribute{device=\"sys/database/2\",name=\"Timing_maximum\"}",
-          "format": "time_series",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "{{x}}",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Timing maximum on Databaseds",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "series",
-        "name": null,
-        "show": true,
-        "values": [
-          "current"
-        ]
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
+      "title": "DatabaseDS",
+      "type": "row"
     },
     {
       "collapsed": false,
@@ -921,7 +922,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 50
+        "y": 19
       },
       "id": 30,
       "panels": [],
@@ -946,7 +947,7 @@
         "h": 13,
         "w": 11,
         "x": 0,
-        "y": 51
+        "y": 20
       },
       "hiddenSeries": false,
       "id": 18,
@@ -977,7 +978,7 @@
         {
           "expr": "device_attribute{device=\"$device\",dim_x=\"1\",dim_y=\"0\", type=\"float\"}",
           "interval": "",
-          "legendFormat": "{{name}}",
+          "legendFormat": "{{label}}",
           "refId": "A"
         }
       ],
@@ -1001,8 +1002,9 @@
       },
       "yaxes": [
         {
+          "decimals": 2,
           "format": "short",
-          "label": null,
+          "label": "",
           "logBase": 1,
           "max": null,
           "min": null,
@@ -1035,7 +1037,7 @@
         "h": 25,
         "w": 11,
         "x": 11,
-        "y": 51
+        "y": 20
       },
       "id": 19,
       "options": {
@@ -1070,7 +1072,7 @@
         "h": 12,
         "w": 11,
         "x": 0,
-        "y": 64
+        "y": 33
       },
       "header_js": "{}",
       "id": 5,
@@ -1092,7 +1094,7 @@
       "timeShift": null,
       "title": "$device  - List commands",
       "type": "ryantxu-ajax-panel",
-      "url": "http://192.168.93.61:31514/tango/rest/rc4/hosts/databaseds-tango-base-test/10000/devices/$device/commands",
+      "url": "http://tango.rest.integration.engageska-portugal.pt/tango/rest/rc4/hosts/databaseds-tango-base-test/10000/devices/$device/commands",
       "withCredentials": true
     },
     {
@@ -1102,7 +1104,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 76
+        "y": 45
       },
       "id": 34,
       "panels": [],
@@ -1128,7 +1130,7 @@
         "h": 17,
         "w": 11,
         "x": 0,
-        "y": 77
+        "y": 46
       },
       "hiddenSeries": false,
       "id": 35,
@@ -1217,7 +1219,7 @@
         "h": 17,
         "w": 11,
         "x": 11,
-        "y": 77
+        "y": 46
       },
       "id": 36,
       "options": {
@@ -1246,7 +1248,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 94
+        "y": 63
       },
       "id": 32,
       "panels": [],
@@ -1265,18 +1267,18 @@
         "h": 15,
         "w": 8,
         "x": 0,
-        "y": 95
+        "y": 64
       },
       "id": 41,
       "options": {
         "dense": true,
-        "header": false,
+        "header": true,
         "pagination": true,
-        "tablehead": false
+        "tablehead": true
       },
       "targets": [
         {
-          "expr": "device_attribute{name=\"obsState\"}",
+          "expr": "device_attribute{name=\"obsState\", str_value!=\"IDLE\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -1284,7 +1286,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "obsState",
+      "title": "obsState (not idle)",
       "type": "inaf-ska-tango-device-view"
     },
     {
@@ -1305,7 +1307,7 @@
         "h": 15,
         "w": 12,
         "x": 8,
-        "y": 95
+        "y": 64
       },
       "hiddenSeries": false,
       "id": 39,
@@ -1393,8 +1395,8 @@
       "gridPos": {
         "h": 4,
         "w": 4,
-        "x": 0,
-        "y": 110
+        "x": 20,
+        "y": 64
       },
       "id": 7,
       "options": {
@@ -1402,7 +1404,7 @@
         "mutation": "{\"query\":\"mutation {\\n  executeCommand(device: \\\"ska_mid/tm_central/central_node\\\", command: \\\"StartUpTelescope\\\") {\\n    ok\\n    output\\n    message\\n  }\\n}\\n\",\"variables\":null}",
         "param": "{\"query\":\"mutation {\\n  executeCommand(device: \\\"ska_mid/tm_central/central_node\\\", command: \\\"StartUpTelescope\\\") {\\n    ok\\n    output\\n    message\\n  }\\n}\\n\",\"variables\":null}",
         "password": "abc123",
-        "url": "http://192.168.93.61:5000/mutation",
+        "url": "http://192.168.93.69:5000/mutation",
         "username": "user1"
       },
       "timeFrom": null,
@@ -1411,7 +1413,7 @@
       "type": "inaf-tango-command"
     }
   ],
-  "refresh": "30s",
+  "refresh": "5s",
   "schemaVersion": 25,
   "style": "dark",
   "tags": [],
@@ -1420,7 +1422,7 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "sys/database/2 + sys/tg_test/1",
           "value": [
             "sys/database/2",
@@ -1494,5 +1496,5 @@
   "timezone": "",
   "title": "Tango Dashboard",
   "uid": "Hp30OQRMk",
-  "version": 107
+  "version": 11
 }

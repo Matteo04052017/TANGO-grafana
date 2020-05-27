@@ -39,17 +39,17 @@ export const ButtonPanel: React.FC<Props> = ({ options, data, width, height }) =
     if (json['data']['executeCommand']['ok']) {
       alert('Command executed successfully. ');
     } else {
-      setError('Command failed: ' + json['data']['executeCommand']['message']);
+      setError(json['data']['executeCommand']['message']);
+      alert('Command failed!');
     }
   };
 
-  if (error) {
-    return <div>{error}</div>;
-  } else {
-    return (
+  return (
+    <div>
+      {error && <div>{error}</div>}
       <button className="mybutton" onClick={handleClick}>
         {options.button_text}
       </button>
-    );
-  }
+    </div>
+  );
 };

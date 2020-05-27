@@ -1,4 +1,5 @@
 import time
+import argparse
 from prometheus_client.core import GaugeMetricFamily, REGISTRY, CounterMetricFamily
 from prometheus_client import start_http_server
 from tango import Database, DeviceProxy, CmdArgType as ArgType, AttrDataFormat
@@ -6,6 +7,8 @@ from tango import Database, DeviceProxy, CmdArgType as ArgType, AttrDataFormat
 class CustomCollector(object):
     def __init__(self):
         self.db = Database()
+        self.replicas=1
+        self.replica_id=1
         pass
 
     def add_to_metric(self, dev, attr_info, metric):
@@ -90,9 +93,21 @@ class CustomCollector(object):
         spectrum_count = 0
         image_count = 0
         not_managed_attribute_count = 0
-        server_list = self.db.get_server_list()
-        i = 0
-        while i < len(server_list):
+        try:
+            server_list = self.db.get_server_list()
+        except:
+            try:
+                self.db = Database()
+            except:
+                return
+
+        count = len(server_list) / self.replicas # 15,8
+        i = int(count * self.replica_id) # 0 15,8 31,6 47,4 63,2 -> 0 15 31 47 63
+        count = int(count) + i # 15 31 47 63 
+        if(self.replicas-1 == self.replica_id):
+            count = len(server_list) # 79
+        print("i=" + str(i) +",count="+str(count))
+        while i < count:
             # https://pytango.readthedocs.io/en/stable/database.html#tango.Database.get_device_class_list
             class_list = self.db.get_device_class_list(server_list[i])
             j = 0
@@ -212,7 +227,20 @@ class CustomCollector(object):
         yield not_managed
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-i', '--replica_id', help='Replica ID identification')
+    parser.add_argument('-r', '--replicas', help='Replica count')
+
+    args = parser.parse_args()
+
+    collector = CustomCollector()
+
+    if(args.replica_id and args.replicas):
+        collector.replica_id=int(args.replica_id)
+        collector.replicas=int(args.replicas)
+
+
     start_http_server(8000)
-    REGISTRY.register(CustomCollector())
+    REGISTRY.register(collector)
     while True:
         time.sleep(1)
