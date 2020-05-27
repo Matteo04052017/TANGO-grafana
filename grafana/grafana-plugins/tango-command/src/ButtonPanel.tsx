@@ -7,8 +7,6 @@ interface Props extends PanelProps<ButtonOptions> {}
 
 export const ButtonPanel: React.FC<Props> = ({ options, data, width, height }) => {
   const [error, setError] = useState('');
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [dataRes, setDataRes] = useState('');
 
   const handleClick = async () => {
     const result = await fetch(options.url, {
@@ -28,7 +26,6 @@ export const ButtonPanel: React.FC<Props> = ({ options, data, width, height }) =
         password: options.password,
       }), // body data type must match "Content-Type" header
     });
-    setIsLoaded(true);
     console.log(result);
     const json = await result.json();
     console.log(json);
@@ -40,7 +37,7 @@ export const ButtonPanel: React.FC<Props> = ({ options, data, width, height }) =
       return;
     }
     if (json['data']['executeCommand']['ok']) {
-      setDataRes('Command executed successfully. ' + json['data']['executeCommand']['message']);
+      alert('Command executed successfully. ');
     } else {
       setError('Command failed: ' + json['data']['executeCommand']['message']);
     }
@@ -48,13 +45,11 @@ export const ButtonPanel: React.FC<Props> = ({ options, data, width, height }) =
 
   if (error) {
     return <div>{error}</div>;
-  } else if (!isLoaded) {
+  } else {
     return (
       <button className="mybutton" onClick={handleClick}>
         {options.button_text}
       </button>
     );
-  } else {
-    return <div>{dataRes}</div>;
   }
 };

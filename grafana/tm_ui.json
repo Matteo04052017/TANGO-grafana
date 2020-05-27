@@ -1,0 +1,584 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "id": 2,
+    "links": [],
+    "panels": [
+      {
+        "datasource": null,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 16,
+        "title": "State Analysis View",
+        "type": "row"
+      },
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 9,
+          "x": 0,
+          "y": 1
+        },
+        "id": 3,
+        "options": {
+          "dense": true,
+          "header": true,
+          "pagination": false,
+          "tablehead": true
+        },
+        "targets": [
+          {
+            "expr": "device_attribute{name=\"State\", device=~\"mid_csp/elt/subarray_01|mid_csp_cbf/fspsubarray/01_01|mid_csp_cbf/sub_elt/subarray_01|mid_csp_cbf/vcc/002|mid_csp_cbf/vcc/004|mid_sdp/elt/subarray_1|ska_mid/tm_subarray_node/1\"}",
+            "instant": true,
+            "interval": "",
+            "legendFormat": "{{device}}",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Device States",
+        "type": "inaf-ska-tango-device-view"
+      },
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 9,
+          "x": 9,
+          "y": 1
+        },
+        "id": 2,
+        "options": {
+          "dense": true,
+          "header": true,
+          "pagination": false,
+          "tablehead": true
+        },
+        "targets": [
+          {
+            "expr": "device_attribute{name=\"obsState\", str_value!=\"IDLE\"}",
+            "instant": true,
+            "interval": "",
+            "legendFormat": "{{device}}",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Device with obsState not IDLE",
+        "type": "inaf-ska-tango-device-view"
+      },
+      {
+        "collapsed": false,
+        "datasource": null,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 9
+        },
+        "id": 18,
+        "panels": [],
+        "title": "Commands",
+        "type": "row"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 0,
+          "y": 10
+        },
+        "id": 5,
+        "options": {
+          "button_text": "Start-up telescope",
+          "mutation": "{\"query\":\"mutation {\\n  executeCommand(device: \\\"ska_mid/tm_central/central_node\\\", command: \\\"StartUpTelescope\\\") {\\n    ok\\n    output\\n    message\\n  }\\n}\\n\",\"variables\":null}",
+          "password": "abc123",
+          "url": "http://192.168.93.69:5000/mutation",
+          "username": "user1"
+        },
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Start-up telescope",
+        "type": "inaf-tango-command"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 4,
+          "y": 10
+        },
+        "id": 6,
+        "options": {
+          "button_text": "Stand by telescope",
+          "mutation": "{\"query\":\"\\n  mutation ExecuteCommand($device: String!, $command: String!, $argin: ScalarTypes) {\\n    executeCommand(device: $device, command: $command, argin: $argin) {\\n      ok\\n      message\\n      output\\n    }\\n  }\",\"variables\":{\"device\":\"ska_mid/tm_central/central_node\",\"command\":\"StandByTelescope\"}}",
+          "password": "abc123",
+          "url": "http://192.168.93.69:5000/mutation",
+          "username": "user1"
+        },
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Stand by telescope",
+        "type": "inaf-tango-command"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 9,
+          "y": 10
+        },
+        "id": 7,
+        "options": {
+          "button_text": "Assign Resources",
+          "mutation": "{\"query\":\"\\n  mutation ExecuteCommand($device: String!, $command: String!, $argin: ScalarTypes) {\\n    executeCommand(device: $device, command: $command, argin: $argin) {\\n      ok\\n      message\\n      output\\n    }\\n  }\",\"variables\":{\"device\":\"ska_mid/tm_central/central_node\",\"command\":\"AssignResources\",\"argin\":\"{\\\"subarrayID\\\":1,\\\"dish\\\":{\\\"receptorIDList\\\":[\\\"0001\\\",\\\"0002\\\"]},\\\"sdp\\\":{\\\"id\\\":\\\"sbi-mvp01-20200325-00001\\\",\\\"max_length\\\":100.0,\\\"scan_types\\\":[{\\\"id\\\":\\\"science_A\\\",\\\"coordinate_system\\\":\\\"ICRS\\\",\\\"ra\\\":\\\"02:42:40.771\\\",\\\"dec\\\":\\\"-00:00:47.84\\\",\\\"subbands\\\":[{\\\"freq_min\\\":0.35e9,\\\"freq_max\\\":1.05e9,\\\"nchan\\\":372,\\\"input_link_map\\\":[[1,0],[101,1]]}]},{\\\"id\\\":\\\"calibration_B\\\",\\\"coordinate_system\\\":\\\"ICRS\\\",\\\"ra\\\":\\\"12:29:06.699\\\",\\\"dec\\\":\\\"02:03:08.598\\\",\\\"subbands\\\":[{\\\"freq_min\\\":0.35e9,\\\"freq_max\\\":1.05e9,\\\"nchan\\\":372,\\\"input_link_map\\\":[[1,0],[101,1]]}]}],\\\"processing_blocks\\\":[{\\\"id\\\":\\\"pb-mvp01-20200325-00001\\\",\\\"workflow\\\":{\\\"type\\\":\\\"realtime\\\",\\\"id\\\":\\\"vis_receive\\\",\\\"version\\\":\\\"0.1.0\\\"},\\\"parameters\\\":{}},{\\\"id\\\":\\\"pb-mvp01-20200325-00002\\\",\\\"workflow\\\":{\\\"type\\\":\\\"realtime\\\",\\\"id\\\":\\\"test_realtime\\\",\\\"version\\\":\\\"0.1.0\\\"},\\\"parameters\\\":{}},{\\\"id\\\":\\\"pb-mvp01-20200325-00003\\\",\\\"workflow\\\":{\\\"type\\\":\\\"batch\\\",\\\"id\\\":\\\"ical\\\",\\\"version\\\":\\\"0.1.0\\\"},\\\"parameters\\\":{},\\\"dependencies\\\":[{\\\"pb_id\\\":\\\"pb-mvp01-20200325-00001\\\",\\\"type\\\":[\\\"visibilities\\\"]}]},{\\\"id\\\":\\\"pb-mvp01-20200325-00004\\\",\\\"workflow\\\":{\\\"type\\\":\\\"batch\\\",\\\"id\\\":\\\"dpreb\\\",\\\"version\\\":\\\"0.1.0\\\"},\\\"parameters\\\":{},\\\"dependencies\\\":[{\\\"pb_id\\\":\\\"pb-mvp01-20200325-00003\\\",\\\"type\\\":[\\\"calibration\\\"]}]}]}}\"}}",
+          "password": "abc123",
+          "url": "http://192.168.93.69:5000/mutation",
+          "username": "user1"
+        },
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Assign Resources",
+        "type": "inaf-tango-command"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 13,
+          "y": 10
+        },
+        "id": 9,
+        "options": {
+          "button_text": "Release Resources",
+          "mutation": "{\"query\":\"\\n  mutation ExecuteCommand($device: String!, $command: String!, $argin: ScalarTypes) {\\n    executeCommand(device: $device, command: $command, argin: $argin) {\\n      ok\\n      message\\n      output\\n    }\\n  }\",\"variables\":{\"device\":\"ska_mid/tm_central/central_node\",\"command\":\"ReleaseResources\",\"argin\":\"{\\\"subarrayID\\\":1,\\\"releaseALL\\\":true,\\\"receptorIDList\\\":[]}\"}}",
+          "password": "abc123",
+          "url": "http://192.168.93.69:5000/mutation",
+          "username": "user1"
+        },
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Release Resources",
+        "type": "inaf-tango-command"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 0,
+          "y": 14
+        },
+        "id": 11,
+        "options": {
+          "button_text": "Configure1",
+          "mutation": "{\"query\":\"\\n  mutation ExecuteCommand($device: String!, $command: String!, $argin: ScalarTypes) {\\n    executeCommand(device: $device, command: $command, argin: $argin) {\\n      ok\\n      message\\n      output\\n    }\\n  }\",\"variables\":{\"device\":\"ska_mid/tm_subarray_node/1\",\"command\":\"Scan\",\"argin\":\"{\\\"id\\\":1}\"}}",
+          "password": "abc123",
+          "url": "http://192.168.93.69:5000/mutation",
+          "username": "user1"
+        },
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Configure1",
+        "type": "inaf-tango-command"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 4,
+          "y": 14
+        },
+        "id": 10,
+        "options": {
+          "button_text": "Scan1",
+          "mutation": "{\"query\":\"\\n  mutation ExecuteCommand($device: String!, $command: String!, $argin: ScalarTypes) {\\n    executeCommand(device: $device, command: $command, argin: $argin) {\\n      ok\\n      message\\n      output\\n    }\\n  }\",\"variables\":{\"device\":\"ska_mid/tm_subarray_node/1\",\"command\":\"Scan\",\"argin\":\"{\\\"id\\\":1}\"}}",
+          "password": "abc123",
+          "url": "http://192.168.93.69:5000/mutation",
+          "username": "user1"
+        },
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Scan1",
+        "type": "inaf-tango-command"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 9,
+          "y": 14
+        },
+        "id": 13,
+        "options": {
+          "button_text": "EndSB",
+          "mutation": "{\"query\":\"\\n  mutation ExecuteCommand($device: String!, $command: String!, $argin: ScalarTypes) {\\n    executeCommand(device: $device, command: $command, argin: $argin) {\\n      ok\\n      message\\n      output\\n    }\\n  }\",\"variables\":{\"device\":\"ska_mid/tm_subarray_node/1\",\"command\":\"EndSB\"}}",
+          "password": "abc123",
+          "url": "http://192.168.93.69:5000/mutation",
+          "username": "user1"
+        },
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "EndSB",
+        "type": "inaf-tango-command"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 0,
+          "y": 18
+        },
+        "id": 12,
+        "options": {
+          "button_text": "Configure2",
+          "mutation": "{\"query\":\"\\n  mutation ExecuteCommand($device: String!, $command: String!, $argin: ScalarTypes) {\\n    executeCommand(device: $device, command: $command, argin: $argin) {\\n      ok\\n      message\\n      output\\n    }\\n  }\",\"variables\":{\"device\":\"ska_mid/tm_subarray_node/1\",\"command\":\"Configure\",\"argin\":\"{\\\"pointing\\\":{\\\"target\\\":{\\\"system\\\":\\\"ICRS\\\",\\\"name\\\":\\\"Polaris\\\",\\\"RA\\\":\\\"02:31:49.0946\\\",\\\"dec\\\":\\\"+89:15:50.7923\\\"}},\\\"dish\\\":{\\\"receiverBand\\\":\\\"1\\\"},\\\"csp\\\":{\\\"id\\\":\\\"sbi-mvp01-20200325-00001-calibration_B\\\",\\\"frequencyBand\\\":\\\"1\\\",\\\"fsp\\\":[{\\\"fspID\\\":1,\\\"functionMode\\\":\\\"CORR\\\",\\\"frequencySliceID\\\":1,\\\"integrationTime\\\":1400,\\\"corrBandwidth\\\":0}]},\\\"sdp\\\":{\\\"scan_type\\\":\\\"calibration_B\\\"},\\\"tmc\\\":{\\\"scanDuration\\\":10.0}}\"}}",
+          "password": "abc123",
+          "url": "http://192.168.93.69:5000/mutation",
+          "username": "user1"
+        },
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Configure2",
+        "type": "inaf-tango-command"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 4,
+          "y": 18
+        },
+        "id": 14,
+        "options": {
+          "button_text": "Scan2",
+          "mutation": "{\"query\":\"\\n  mutation ExecuteCommand($device: String!, $command: String!, $argin: ScalarTypes) {\\n    executeCommand(device: $device, command: $command, argin: $argin) {\\n      ok\\n      message\\n      output\\n    }\\n  }\",\"variables\":{\"device\":\"ska_mid/tm_subarray_node/1\",\"command\":\"Scan\",\"argin\":\"{\\\"id\\\":2}\"}}",
+          "password": "abc123",
+          "url": "http://192.168.93.69:5000/mutation",
+          "username": "user1"
+        },
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Scan2",
+        "type": "inaf-tango-command"
+      },
+      {
+        "collapsed": true,
+        "datasource": null,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 22
+        },
+        "id": 20,
+        "panels": [],
+        "title": "Devices view",
+        "type": "row"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 9,
+          "x": 0,
+          "y": 23
+        },
+        "id": 8,
+        "options": {
+          "dense": false,
+          "header": true,
+          "pagination": false,
+          "tablehead": true
+        },
+        "targets": [
+          {
+            "expr": "device_attribute{device=\"ska_mid/tm_subarray_node/1\",name=~\"State|obsState|receptorIDList|activityMessage\"}",
+            "instant": true,
+            "interval": "",
+            "legendFormat": "{{device}}",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "ska_mid/tm_subarray_node/1",
+        "type": "inaf-ska-tango-device-view"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 9,
+          "x": 9,
+          "y": 23
+        },
+        "id": 22,
+        "options": {
+          "dense": false,
+          "header": true,
+          "pagination": false,
+          "tablehead": true
+        },
+        "targets": [
+          {
+            "expr": "device_attribute{device=\"mid_sdp/elt/subarray_1\",name=~\"State|obsState\"}",
+            "instant": true,
+            "interval": "",
+            "legendFormat": "{{device}}",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "mid_sdp/elt/subarray_1",
+        "type": "inaf-ska-tango-device-view"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 9,
+          "x": 9,
+          "y": 28
+        },
+        "id": 24,
+        "options": {
+          "dense": false,
+          "header": true,
+          "pagination": false,
+          "tablehead": true
+        },
+        "targets": [
+          {
+            "expr": "device_attribute{device=\"mid_d0002/elt/master\",name=~\"State|pointingState\"}",
+            "instant": true,
+            "interval": "",
+            "legendFormat": "{{device}}",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "mid_d0002/elt/master",
+        "type": "inaf-ska-tango-device-view"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 9,
+          "x": 0,
+          "y": 30
+        },
+        "id": 23,
+        "options": {
+          "dense": false,
+          "header": true,
+          "pagination": false,
+          "tablehead": true
+        },
+        "targets": [
+          {
+            "expr": "device_attribute{device=\"mid_d0001/elt/master\",name=~\"State|pointingState\"}",
+            "instant": true,
+            "interval": "",
+            "legendFormat": "{{device}}",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "mid_d0001/elt/master",
+        "type": "inaf-ska-tango-device-view"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 9,
+          "x": 9,
+          "y": 33
+        },
+        "id": 21,
+        "options": {
+          "dense": false,
+          "header": true,
+          "pagination": false,
+          "tablehead": true
+        },
+        "targets": [
+          {
+            "expr": "device_attribute{device=\"mid_csp/elt/subarray_01\",name=~\"State|obsState\"}",
+            "instant": true,
+            "interval": "",
+            "legendFormat": "{{device}}",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "mid_csp/elt/subarray_01",
+        "type": "inaf-ska-tango-device-view"
+      }
+    ],
+    "refresh": "5s",
+    "schemaVersion": 25,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-5m",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "1m"
+      ]
+    },
+    "timezone": "",
+    "title": "State analysis",
+    "uid": "8ymLiKzMz",
+    "version": 17
+  }
