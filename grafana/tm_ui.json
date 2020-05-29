@@ -118,7 +118,73 @@
       }
     },
     {
-      "collapsed": true,
+      "content": "<ul>\n<li>ON = 0</li>\n<li>OFF = 1</li>\n<li>CLOSE = 2</li>\n<li>OPEN = 3</li>\n<li>INSERT = 4</li>\n<li>EXTRACT = 5</li>\n<li>MOVING = 6</li>\n<li>STANDBY = 7</li>\n<li>FAULT = 8</li>\n<li>INIT = 9</li>\n<li>RUNNING = 10</li>\n<li>ALARM = 11</li>\n<li>DISABLE = 12</li>\n<li>UNKNOWN = 13</li>\n</ul>\n\n\n\n\n\n\n",
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 3,
+        "x": 18,
+        "y": 0
+      },
+      "id": 36,
+      "mode": "html",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "State",
+      "type": "text"
+    },
+    {
+      "content": "<ul>\n<li>READY = 0</li>\n<li>SLEW = 1</li>\n<li>TRACK = 2</li>\n<li>SCAN = 3</li>\n<li>RESERVED = 4</li>\n</ul>\n\n",
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 21,
+        "y": 0
+      },
+      "id": 35,
+      "mode": "html",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "PointingState",
+      "type": "text"
+    },
+    {
+      "content": "<ul>\n<li>IDLE = 0</li>\n<li>CONFIGURING = 1</li>\n<li>READY = 2</li>\n<li>SCANNING = 3</li>\n<li>PAUSED = 4</li>\n<li>ABORTED = 5</li>\n<li>FAULT = 6</li>\n</ul>\n\n",
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 21,
+        "y": 6
+      },
+      "id": 34,
+      "mode": "html",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "ObsState",
+      "type": "text"
+    },
+    {
+      "collapsed": false,
       "datasource": null,
       "gridPos": {
         "h": 1,
@@ -127,203 +193,201 @@
         "y": 12
       },
       "id": 16,
-      "panels": [
-        {
-          "datasource": null,
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 12,
-            "w": 9,
-            "x": 0,
-            "y": 20
-          },
-          "id": 3,
-          "options": {
-            "dense": true,
-            "header": true,
-            "pagination": false,
-            "tablehead": true
-          },
-          "targets": [
-            {
-              "expr": "device_attribute{name=\"State\", device=~\"mid_csp/elt/subarray_01|mid_csp_cbf/fspsubarray/01_01|mid_csp_cbf/sub_elt/subarray_01|mid_csp_cbf/vcc/002|mid_csp_cbf/vcc/004|mid_sdp/elt/subarray_1|ska_mid/tm_subarray_node/1\"}",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{device}}",
-              "refId": "A"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Device States",
-          "type": "inaf-ska-tango-device-view"
-        },
-        {
-          "datasource": null,
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 12,
-            "w": 9,
-            "x": 9,
-            "y": 20
-          },
-          "id": 2,
-          "options": {
-            "dense": true,
-            "header": true,
-            "pagination": false,
-            "tablehead": true
-          },
-          "targets": [
-            {
-              "expr": "device_attribute{name=\"obsState\", str_value!=\"IDLE\"}",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{device}}",
-              "refId": "A"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Device with obsState not IDLE",
-          "type": "inaf-ska-tango-device-view"
-        }
-      ],
+      "panels": [],
       "title": "State Analysis",
       "type": "row"
     },
     {
-      "collapsed": true,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 9,
+        "x": 0,
+        "y": 13
+      },
+      "id": 3,
+      "options": {
+        "dense": true,
+        "header": true,
+        "pagination": false,
+        "tablehead": true
+      },
+      "targets": [
+        {
+          "expr": "device_attribute{name=\"State\", device=~\"mid_csp/elt/subarray_01|mid_csp_cbf/fspsubarray/01_01|mid_csp_cbf/sub_elt/subarray_01|mid_csp_cbf/vcc/002|mid_csp_cbf/vcc/004|mid_sdp/elt/subarray_1|ska_mid/tm_subarray_node/1\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "{{device}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Device States",
+      "type": "inaf-ska-tango-device-view"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 9,
+        "x": 9,
+        "y": 13
+      },
+      "id": 2,
+      "options": {
+        "dense": true,
+        "header": true,
+        "pagination": false,
+        "tablehead": true
+      },
+      "targets": [
+        {
+          "expr": "device_attribute{name=\"obsState\", str_value!=\"IDLE\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "{{device}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Device with obsState not IDLE",
+      "type": "inaf-ska-tango-device-view"
+    },
+    {
+      "collapsed": false,
       "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 13
+        "y": 25
       },
       "id": 20,
-      "panels": [
-        {
-          "datasource": null,
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 9,
-            "x": 0,
-            "y": 14
-          },
-          "id": 8,
-          "options": {
-            "dense": false,
-            "header": true,
-            "pagination": false,
-            "tablehead": false
-          },
-          "targets": [
-            {
-              "expr": "device_attribute{device=\"ska_mid/tm_subarray_node/1\",name=~\"State|obsState|receptorIDList|activityMessage\"}",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{device}}",
-              "refId": "A"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "TM Subarray 1",
-          "type": "inaf-ska-tango-device-view"
-        },
-        {
-          "datasource": null,
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 9,
-            "x": 9,
-            "y": 14
-          },
-          "id": 25,
-          "options": {
-            "dense": false,
-            "header": true,
-            "pagination": false,
-            "tablehead": false
-          },
-          "targets": [
-            {
-              "expr": "device_attribute{device=~\"mid_csp/elt/subarray_01||mid_sdp/elt/subarray_1\",name=~\"State|obsState|receptorIDList|activityMessage\"}",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{device}}",
-              "refId": "A"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Subarrays SDP/CSP",
-          "type": "inaf-ska-tango-device-view"
-        },
-        {
-          "datasource": null,
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 7,
-            "w": 9,
-            "x": 9,
-            "y": 22
-          },
-          "id": 24,
-          "options": {
-            "dense": false,
-            "header": true,
-            "pagination": false,
-            "tablehead": true
-          },
-          "targets": [
-            {
-              "expr": "device_attribute{device=~\"mid_d0001/elt/master|mid_d0002/elt/master\",name=~\"State|pointingState\"}",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{device}}",
-              "refId": "A"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Dishes",
-          "type": "inaf-ska-tango-device-view"
-        }
-      ],
+      "panels": [],
       "title": "Devices",
       "type": "row"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 9,
+        "x": 0,
+        "y": 26
+      },
+      "id": 8,
+      "options": {
+        "dense": false,
+        "header": true,
+        "pagination": false,
+        "tablehead": false
+      },
+      "targets": [
+        {
+          "expr": "device_attribute{device=\"ska_mid/tm_subarray_node/1\",name=~\"State|obsState|receptorIDList|activityMessage\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "{{device}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "TM Subarray 1",
+      "type": "inaf-ska-tango-device-view"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 9,
+        "x": 9,
+        "y": 26
+      },
+      "id": 25,
+      "options": {
+        "dense": false,
+        "header": true,
+        "pagination": false,
+        "tablehead": false
+      },
+      "targets": [
+        {
+          "expr": "device_attribute{device=~\"mid_csp/elt/subarray_01||mid_sdp/elt/subarray_1\",name=~\"State|obsState|receptorIDList|activityMessage\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "{{device}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Subarrays SDP/CSP",
+      "type": "inaf-ska-tango-device-view"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 9,
+        "x": 9,
+        "y": 34
+      },
+      "id": 24,
+      "options": {
+        "dense": false,
+        "header": true,
+        "pagination": false,
+        "tablehead": true
+      },
+      "targets": [
+        {
+          "expr": "device_attribute{device=~\"mid_d0001/elt/master|mid_d0002/elt/master\",name=~\"State|pointingState\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "{{device}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Dishes",
+      "type": "inaf-ska-tango-device-view"
     },
     {
       "collapsed": true,
@@ -332,7 +396,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 14
+        "y": 41
       },
       "id": 18,
       "panels": [
@@ -599,7 +663,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 15
+        "y": 42
       },
       "id": 30,
       "panels": [],
@@ -695,7 +759,7 @@
         "h": 9,
         "w": 18,
         "x": 0,
-        "y": 16
+        "y": 43
       },
       "id": 27,
       "options": {
@@ -709,7 +773,7 @@
               "field": "@timestamp",
               "id": "2",
               "settings": {
-                "interval": "10m",
+                "interval": "1h",
                 "min_doc_count": 0,
                 "trimEdges": 0
               },
@@ -861,7 +925,7 @@
         "h": 9,
         "w": 18,
         "x": 0,
-        "y": 25
+        "y": 52
       },
       "id": 28,
       "options": {
@@ -951,7 +1015,7 @@
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {
@@ -962,5 +1026,5 @@
   "timezone": "",
   "title": "State analysis",
   "uid": "8ymLiKzMz",
-  "version": 38
+  "version": 42
 }

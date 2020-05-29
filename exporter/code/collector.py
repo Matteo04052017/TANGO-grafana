@@ -106,7 +106,7 @@ class CustomCollector(object):
         count = int(count) + i # 15 31 47 63 
         if(self.replicas-1 == self.replica_id):
             count = len(server_list) # 79
-        print("i=" + str(i) +",count="+str(count))
+        #print("i=" + str(i) +",count="+str(count))
         while i < count:
             # https://pytango.readthedocs.io/en/stable/database.html#tango.Database.get_device_class_list
             class_list = self.db.get_device_class_list(server_list[i])
