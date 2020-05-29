@@ -8,7 +8,7 @@ class CustomCollector(object):
     def __init__(self):
         self.db = Database()
         self.replicas=1
-        self.replica_id=1
+        self.replica_id=0
         pass
 
     def add_to_metric(self, dev, attr_info, metric):
