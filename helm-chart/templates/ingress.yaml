@@ -1,0 +1,24 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: tango-grafana
+  annotations:
+      kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - host: grafana.integration.engageska-portugal.pt
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: grafana-service
+            servicePort: 3000
+    - host: tangogql-proxy.integration.engageska-portugal.pt
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: tango-gql-proxy-service
+            servicePort: 5000

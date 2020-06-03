@@ -16,7 +16,12 @@ tangogql_url =  os.environ.get('TANGOGQL_URL')
 def login(username, password):
     jsonLogin={"username":username,"password":password}
     r = requests.post(url=login_url, json=jsonLogin)
+    print(str(r))
     return r.cookies.get_dict()['webjive_jwt']
+
+@app.route('/', methods=['GET'])
+def base():
+    return "Hello from tango-gql proxy!"
 
 @app.route('/mutation', methods=['POST'])
 def mutation():
@@ -29,6 +34,7 @@ def mutation():
     app.logger.info(jsonInput['mutation'])
     cookies = {'webjive_jwt': login(jsonInput['username'],jsonInput['password'])}
     r = requests.post(url=tangogql_url, json=json.loads(jsonInput['mutation']), cookies=cookies)
+    print(str(r))
     app.logger.info("response from tangogql=" + r.text)
     response = app.response_class(
         response=json.dumps(json.loads(r.text)),

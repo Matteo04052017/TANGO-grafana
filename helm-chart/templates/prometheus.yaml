@@ -59,7 +59,7 @@ spec:
         image: prom/prometheus
         ports:
         - containerPort: 9090
-        args: ["--config.file=/etc/prometheus/prometheus.yml", "--storage.tsdb.path=/prometheus"]
+        args: ["--config.file=/etc/prometheus/prometheus.yml", "--storage.tsdb.path=/prometheus", "--storage.tsdb.retention.time=2d"]
         volumeMounts:
         - name: data
           mountPath: /prometheus

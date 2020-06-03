@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: tango-gql-service
+  name: tango-gql-proxy-service
   namespace: tango-grafana
 spec:
   selector:
-    app: tango-gql
+    app: tango-gql-proxy
   type: NodePort
   ports:
   - protocol: TCP
@@ -17,20 +17,20 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: tango-gql-deployment
+  name: tango-gql-proxy-deployment
   namespace: tango-grafana
   labels:
-    app: tango-gql
+    app: tango-gql-proxy
 spec:
-  serviceName: tango-gql-service
+  serviceName: tango-gql-proxy-service
   replicas: 1
   selector:
     matchLabels:
-      app: tango-gql
+      app: tango-gql-proxy
   template:
     metadata:
       labels:
-        app: tango-gql
+        app: tango-gql-proxy
     spec:
       containers:
       - name: tangogql-proxy
@@ -39,7 +39,7 @@ spec:
         - containerPort: 5000
         env:
         - name: AUTH_URL
-          value: http://webjive-webjive-test.integration.svc.cluster.local:8080
+          value: http://webjive-webjive-test.integration.svc.cluster.local:8080/login
         - name: TANGOGQL_URL
-          value: http://webjive-webjive-test.integration.svc.cluster.local:5004
+          value: http://webjive-webjive-test.integration.svc.cluster.local:5004/db
 

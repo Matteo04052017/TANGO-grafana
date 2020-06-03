@@ -35,6 +35,9 @@ data:
         isDefault: true
         editable: false
 
+
+
+
 ---
 apiVersion: apps/v1
 kind: StatefulSet
