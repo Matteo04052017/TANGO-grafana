@@ -1,1 +1,1 @@
-curl $(kubectl get svc -n integration -o jsonpath='{.items[?(@.metadata.name=="tango-exporter-service")].spec.clusterIP}')/metrics
+curl $(kubectl get svc -n tango-grafana -o jsonpath='{.items[?(@.metadata.name=="tango-exporter-service-0")].spec.clusterIP}')/metrics
