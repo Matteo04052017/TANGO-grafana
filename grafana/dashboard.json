@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 1,
-  "iteration": 1590591547870,
+  "iteration": 1591202929125,
   "links": [],
   "panels": [
     {
@@ -1423,10 +1423,10 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "text": "sys/database/2 + sys/tg_test/1",
+          "text": "sys/tg_test/1 + sys/database/2",
           "value": [
-            "sys/database/2",
-            "sys/tg_test/1"
+            "sys/tg_test/1",
+            "sys/database/2"
           ]
         },
         "datasource": "Prometheus",
