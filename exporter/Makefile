@@ -6,4 +6,4 @@ build:
 curl: 
 	./get_metrics.sh
 
-all: build delete deploy
+all: build

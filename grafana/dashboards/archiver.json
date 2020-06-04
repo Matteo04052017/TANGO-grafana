@@ -1,0 +1,757 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 5,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 9,
+      "panels": [
+        {
+          "datasource": "Archiver",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "att_name"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 901
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 20,
+            "w": 15,
+            "x": 0,
+            "y": 1
+          },
+          "id": 2,
+          "options": {
+            "showHeader": true
+          },
+          "pluginVersion": "7.0.0-beta3",
+          "targets": [
+            {
+              "format": "table",
+              "group": [],
+              "metricColumn": "none",
+              "rawQuery": true,
+              "rawSql": "SELECT att_name, data_type FROM att_conf INNER JOIN att_conf_data_type\r\nON att_conf.att_conf_data_type_id = att_conf_data_type.att_conf_data_type_id LIMIT 1000;",
+              "refId": "A",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value_r"
+                    ],
+                    "type": "column"
+                  }
+                ]
+              ],
+              "table": "att_scalar_devdouble_rw",
+              "timeColumn": "data_time",
+              "timeColumnType": "timestamp",
+              "where": [
+                {
+                  "name": "$__timeFilter",
+                  "params": [],
+                  "type": "macro"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Attribute configuration",
+          "type": "table"
+        }
+      ],
+      "title": "Archiver attribute configurations",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 11,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "Archiver",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {}
+            },
+            "overrides": []
+          },
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 16,
+            "w": 12,
+            "x": 0,
+            "y": 2
+          },
+          "hiddenSeries": false,
+          "id": 4,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "dataLinks": []
+          },
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "format": "time_series",
+              "group": [],
+              "metricColumn": "none",
+              "rawQuery": true,
+              "rawSql": "SELECT\n  data_time AS \"time\",\n  att_name,\n  value_r\nFROM att_scalar_devdouble_rw INNER JOIN att_conf ON att_conf.att_conf_id = att_scalar_devdouble_rw.att_conf_id\nWHERE\n  $__timeFilter(data_time)\nORDER BY data_time",
+              "refId": "A",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value_r"
+                    ],
+                    "type": "column"
+                  }
+                ]
+              ],
+              "table": "att_scalar_devdouble_rw",
+              "timeColumn": "data_time",
+              "timeColumnType": "timestamp",
+              "where": [
+                {
+                  "name": "$__timeFilter",
+                  "params": [],
+                  "type": "macro"
+                }
+              ]
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Scalar Double (windspeed)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "Archiver",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {}
+            },
+            "overrides": []
+          },
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 16,
+            "w": 12,
+            "x": 12,
+            "y": 2
+          },
+          "hiddenSeries": false,
+          "id": 6,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "dataLinks": []
+          },
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "format": "time_series",
+              "group": [],
+              "metricColumn": "none",
+              "rawQuery": true,
+              "rawSql": "SELECT\n  data_time AS \"time\",\n  att_name,\n  value_r\nFROM att_scalar_devulong_rw INNER JOIN att_conf ON att_conf.att_conf_id = att_scalar_devulong_rw.att_conf_id\nWHERE\n  $__timeFilter(data_time)\nORDER BY data_time",
+              "refId": "A",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value_r"
+                    ],
+                    "type": "column"
+                  }
+                ]
+              ],
+              "table": "att_scalar_devdouble_rw",
+              "timeColumn": "data_time",
+              "timeColumnType": "timestamp",
+              "where": [
+                {
+                  "name": "$__timeFilter",
+                  "params": [],
+                  "type": "macro"
+                }
+              ]
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Scalar Long (TangoTest)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        }
+      ],
+      "title": "Attributes",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 2
+      },
+      "id": 13,
+      "panels": [
+        {
+          "datasource": "Archiver",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "idx"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 154
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Time"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 225
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 16,
+            "w": 13,
+            "x": 0,
+            "y": 3
+          },
+          "id": 5,
+          "pconfig": {
+            "fixScale": "",
+            "layout": {
+              "dragmode": "lasso",
+              "font": {
+                "family": "\"Open Sans\", Helvetica, Arial, sans-serif"
+              },
+              "hovermode": "closest",
+              "legend": {
+                "orientation": "h"
+              },
+              "showlegend": false,
+              "xaxis": {
+                "rangemode": "normal",
+                "showgrid": true,
+                "title": "X",
+                "type": "linear",
+                "zeroline": true
+              },
+              "yaxis": {
+                "rangemode": "normal",
+                "showgrid": true,
+                "title": "Time",
+                "type": "date",
+                "zeroline": true
+              },
+              "zaxis": {
+                "rangemode": "normal",
+                "showgrid": true,
+                "title": "Value",
+                "type": "linear",
+                "zeroline": true
+              }
+            },
+            "loadFromCDN": false,
+            "settings": {
+              "displayModeBar": false,
+              "type": "scatter3d"
+            },
+            "showAnnotations": false,
+            "traces": [
+              {
+                "mapping": {
+                  "color": "time_sec",
+                  "size": null,
+                  "text": "name",
+                  "x": "idx",
+                  "y": "time_sec",
+                  "z": "value"
+                },
+                "name": "Trace 1",
+                "settings": {
+                  "color_option": "solid",
+                  "line": {
+                    "color": "#005f81",
+                    "dash": "solid",
+                    "shape": "linear",
+                    "width": 6
+                  },
+                  "marker": {
+                    "color": "#33B5E5",
+                    "colorscale": "YlOrRd",
+                    "line": {
+                      "color": "#DDD",
+                      "width": 0
+                    },
+                    "showscale": false,
+                    "size": 5,
+                    "sizemin": 3,
+                    "sizemode": "diameter",
+                    "sizeref": 0.2,
+                    "symbol": "circle"
+                  },
+                  "textposition": ""
+                },
+                "show": {
+                  "line": true,
+                  "lines": false,
+                  "markers": false
+                }
+              }
+            ]
+          },
+          "pluginVersion": "7.0.0-beta3",
+          "targets": [
+            {
+              "format": "table",
+              "group": [],
+              "hide": false,
+              "metricColumn": "att_conf_id",
+              "rawQuery": true,
+              "rawSql": "SELECT\r\n  data_time as time_sec,\r\n  att_conf.name,\r\n  idx,\r\n  value_r as value\r\nFROM att_array_devdouble_rw INNER JOIN att_conf ON att_conf.att_conf_id = att_array_devdouble_rw.att_conf_id\r\nWHERE att_conf.att_name = 'tango://databaseds-tango-base-test.integration.svc.cluster.local:10000/mid_d0001/elt/master/desiredpointing'\r\nAND $__timeFilter(data_time)\r\nORDER BY data_time",
+              "refId": "A",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value_r"
+                    ],
+                    "type": "column"
+                  }
+                ]
+              ],
+              "table": "att_array_devdouble_rw",
+              "timeColumn": "data_time",
+              "timeColumnType": "timestamp",
+              "where": []
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Desired Pointing (time interval)",
+          "type": "natel-plotly-panel",
+          "version": 1
+        },
+        {
+          "datasource": "Archiver",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": null
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "idx"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 154
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Time"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 225
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 16,
+            "w": 11,
+            "x": 13,
+            "y": 3
+          },
+          "id": 7,
+          "pconfig": {
+            "fixScale": "",
+            "layout": {
+              "dragmode": "lasso",
+              "font": {
+                "family": "\"Open Sans\", Helvetica, Arial, sans-serif"
+              },
+              "hovermode": "closest",
+              "legend": {
+                "orientation": "h"
+              },
+              "showlegend": false,
+              "xaxis": {
+                "rangemode": "normal",
+                "showgrid": true,
+                "title": "X",
+                "type": "linear",
+                "zeroline": false
+              },
+              "yaxis": {
+                "rangemode": "normal",
+                "showgrid": true,
+                "title": "Value",
+                "type": "",
+                "zeroline": true
+              },
+              "zaxis": {
+                "rangemode": "normal",
+                "showgrid": true,
+                "title": "Value",
+                "type": "linear",
+                "zeroline": true
+              }
+            },
+            "loadFromCDN": false,
+            "settings": {
+              "displayModeBar": false,
+              "type": "scatter"
+            },
+            "showAnnotations": false,
+            "traces": [
+              {
+                "mapping": {
+                  "color": "time_sec",
+                  "size": null,
+                  "text": "name",
+                  "x": "idx",
+                  "y": "value",
+                  "z": "value"
+                },
+                "name": "Trace 1",
+                "settings": {
+                  "color_option": "solid",
+                  "line": {
+                    "color": "#005f81",
+                    "dash": "solid",
+                    "shape": "linear",
+                    "width": 6
+                  },
+                  "marker": {
+                    "color": "#33B5E5",
+                    "colorscale": "YlOrRd",
+                    "line": {
+                      "color": "#DDD",
+                      "width": 0
+                    },
+                    "showscale": false,
+                    "size": 5,
+                    "sizemin": 3,
+                    "sizemode": "diameter",
+                    "sizeref": 0.2,
+                    "symbol": "circle"
+                  },
+                  "textposition": "bottom"
+                },
+                "show": {
+                  "line": true,
+                  "lines": false,
+                  "markers": false
+                }
+              }
+            ]
+          },
+          "pluginVersion": "7.0.0-beta3",
+          "targets": [
+            {
+              "format": "table",
+              "group": [],
+              "hide": false,
+              "metricColumn": "att_conf_id",
+              "rawQuery": true,
+              "rawSql": "SELECT\r\n  att_conf.name,\r\n  idx,\r\n  value_r as value\r\nFROM att_array_devdouble_rw INNER JOIN att_conf ON att_conf.att_conf_id = att_array_devdouble_rw.att_conf_id\r\nWHERE att_conf.att_name = 'tango://databaseds-tango-base-test.integration.svc.cluster.local:10000/mid_d0001/elt/master/desiredpointing'\r\nAND data_time = (select max(data_time) from att_array_devdouble_rw)",
+              "refId": "A",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value_r"
+                    ],
+                    "type": "column"
+                  }
+                ]
+              ],
+              "table": "att_array_devdouble_rw",
+              "timeColumn": "data_time",
+              "timeColumnType": "timestamp",
+              "where": []
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Desired Pointing (Latest)",
+          "type": "natel-plotly-panel",
+          "version": 1
+        }
+      ],
+      "title": "Plotly",
+      "type": "row"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 25,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "Archiver",
+  "uid": "MZkwGRiMk",
+  "version": 20
+}

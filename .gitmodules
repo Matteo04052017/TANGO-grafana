@@ -1,0 +1,6 @@
+[submodule "grafana/grafana-plugins/grafana-plotly-panel"]
+	path = grafana/grafana-plugins/grafana-plotly-panel
+	url = https://github.com/NatelEnergy/grafana-plotly-panel
+[submodule "grafana/grafana-plugins/ajax-panel"]
+	path = grafana/grafana-plugins/ajax-panel
+	url = https://github.com/ryantxu/ajax-panel
