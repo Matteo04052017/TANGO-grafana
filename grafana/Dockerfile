@@ -28,6 +28,13 @@ RUN mkdir -p "$GF_PATHS_PLUGINS" && \
 
 ADD grafana-plugins "$GF_PATHS_PLUGINS"
 
+RUN apk add yarn; \
+    for plugin in ${GF_PATHS_PLUGINS}/*; do \
+        cd ${plugin}; \
+        yarn install; \
+        yarn build; \
+    done; 
+
 RUN if [ $GF_INSTALL_IMAGE_RENDERER_PLUGIN = "true" ]; then \
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
@@ -59,4 +66,3 @@ RUN if [ ! -z "${GF_INSTALL_PLUGINS}" ]; then \
         grafana-cli --pluginsDir "$GF_PATHS_PLUGINS" plugins install ${plugin}; \
     done; \
 fi
-

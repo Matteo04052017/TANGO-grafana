@@ -1,0 +1,2 @@
+grafana-plugins/*/node_modules
+grafana-plugins/*/dist
