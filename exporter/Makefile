@@ -1,9 +1,7 @@
+NAME:=tango-exporter
 
+VERSION:=1.0.0
 
-build:
-	docker build -t tango-exporter:1.0.0 -f Dockerfile .
+TAG:=1.0.0
 
-curl: 
-	./get_metrics.sh
-
-all: build
+include ../make/Makefile.mk

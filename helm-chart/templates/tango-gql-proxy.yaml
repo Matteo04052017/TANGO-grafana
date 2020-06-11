@@ -2,10 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: tango-gql-proxy-service
-  namespace: tango-grafana
+  namespace: {{ .Release.Namespace }}
 spec:
   selector:
-    app: tango-gql-proxy
+    app: tango-gql-proxy-service
   type: NodePort
   ports:
   - protocol: TCP
@@ -18,23 +18,24 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: tango-gql-proxy-deployment
-  namespace: tango-grafana
+  namespace: {{ .Release.Namespace }}
   labels:
-    app: tango-gql-proxy
+    app: tango-gql-proxy-service
 spec:
   serviceName: tango-gql-proxy-service
   replicas: 1
   selector:
     matchLabels:
-      app: tango-gql-proxy
+      app: tango-gql-proxy-service
   template:
     metadata:
       labels:
-        app: tango-gql-proxy
+        app: tango-gql-proxy-service
     spec:
       containers:
       - name: tangogql-proxy
-        image: tangogql-proxy:1.0.0
+        image: "{{ .Values.tango_gql_proxy.image.registry }}/{{ .Values.tango_gql_proxy.image.image }}:{{ .Values.tango_gql_proxy.image.tag }}"
+        imagePullPolicy: {{ .Values.tango_gql_proxy.image.pullPolicy }}
         ports:
         - containerPort: 5000
         env:

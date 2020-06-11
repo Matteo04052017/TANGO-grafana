@@ -2,10 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: prometheus-service
-  namespace: tango-grafana
+  namespace: {{ .Release.Namespace }}
 spec:
   selector:
-    app: prometheus
+    app: prometheus-service
   type: NodePort
   ports:
   - protocol: TCP
@@ -18,7 +18,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: prometheus-config
-  namespace: tango-grafana
+  namespace: {{ .Release.Namespace }}
 data: 
     prometheus.yml: |
       global:
@@ -40,19 +40,19 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: prometheus-deployment
-  namespace: tango-grafana
+  namespace: {{ .Release.Namespace }}
   labels:
-    app: prometheus
+    app: prometheus-service
 spec:
   serviceName: prometheus-service
   replicas: 1
   selector:
     matchLabels:
-      app: prometheus
+      app: prometheus-service
   template:
     metadata:
       labels:
-        app: prometheus
+        app: prometheus-service
     spec:
       containers:
       - name: prometheus
@@ -70,6 +70,6 @@ spec:
         configMap:
           name: prometheus-config
       - name: data
-        hostPath:
-          path: /home/ubuntu/tango-grafana-data/prometheus/
+        persistentVolumeClaim:
+          claimName: prom-tango-grafana
 

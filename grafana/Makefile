@@ -1,5 +1,7 @@
+NAME:=grafana-tango-plugins
 
-build:
-	docker build -t grafana-tango-plugins:1.0.0 -f Dockerfile .
+VERSION:=1.0.0
 
-all: build
+TAG:=1.0.0
+
+include ../make/Makefile.mk

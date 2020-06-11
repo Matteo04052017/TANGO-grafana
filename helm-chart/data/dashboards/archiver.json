@@ -30,7 +30,7 @@
       "id": 9,
       "panels": [
         {
-          "datasource": "Archiver",
+          "datasource": "TangoArchiver",
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -77,7 +77,7 @@
           "options": {
             "showHeader": true
           },
-          "pluginVersion": "7.0.0-beta3",
+          "pluginVersion": "7.0.3",
           "targets": [
             {
               "format": "table",
@@ -133,7 +133,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "Archiver",
+          "datasource": "TangoArchiver",
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -250,7 +250,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "Archiver",
+          "datasource": "TangoArchiver",
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -361,13 +361,144 @@
             "align": false,
             "alignLevel": null
           }
+        },
+        {
+          "datasource": "TangoArchiver",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {}
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 16,
+            "w": 12,
+            "x": 0,
+            "y": 18
+          },
+          "id": 14,
+          "pconfig": {
+            "fixScale": "",
+            "layout": {
+              "dragmode": "lasso",
+              "font": {
+                "family": "\"Open Sans\", Helvetica, Arial, sans-serif"
+              },
+              "hovermode": "closest",
+              "legend": {
+                "orientation": "h"
+              },
+              "showlegend": true,
+              "xaxis": {
+                "rangemode": "normal",
+                "showgrid": true,
+                "type": "auto",
+                "zeroline": true
+              },
+              "yaxis": {
+                "rangemode": "normal",
+                "showgrid": true,
+                "type": "linear",
+                "zeroline": true
+              },
+              "zaxis": {
+                "rangemode": "normal",
+                "showgrid": true,
+                "type": "linear",
+                "zeroline": false
+              }
+            },
+            "loadFromCDN": false,
+            "settings": {
+              "displayModeBar": false,
+              "type": "scatter"
+            },
+            "showAnnotations": true,
+            "traces": [
+              {
+                "mapping": {
+                  "color": "tango://databaseds-tango-base-test.integration.svc.cluster.local:10000/mid_d0004/elt/master/windspeed",
+                  "size": null,
+                  "text": null,
+                  "x": "tango://databaseds-tango-base-test.integration.svc.cluster.local:10000/mid_d0004/elt/master/windspeed@time",
+                  "y": "tango://databaseds-tango-base-test.integration.svc.cluster.local:10000/mid_d0004/elt/master/windspeed",
+                  "z": null
+                },
+                "name": "tango://databaseds-tango-base-test.integration.svc.cluster.local:10000/mid_d0004/elt/master/windspeed",
+                "settings": {
+                  "color_option": "ramp",
+                  "line": {
+                    "color": "#005f81",
+                    "dash": "solid",
+                    "shape": "linear",
+                    "width": 2
+                  },
+                  "marker": {
+                    "color": "#33B5E5",
+                    "colorscale": "YlOrRd",
+                    "line": {
+                      "color": "#DDD",
+                      "width": 0
+                    },
+                    "showscale": false,
+                    "size": 1,
+                    "sizemin": 3,
+                    "sizemode": "diameter",
+                    "sizeref": 0.2,
+                    "symbol": "circle"
+                  }
+                },
+                "show": {
+                  "line": true,
+                  "lines": true,
+                  "markers": false
+                }
+              }
+            ]
+          },
+          "targets": [
+            {
+              "format": "time_series",
+              "group": [],
+              "metricColumn": "none",
+              "rawQuery": true,
+              "rawSql": "SELECT\n  data_time AS \"time\",\n  att_name,\n  value_r\nFROM att_scalar_devdouble_rw INNER JOIN att_conf ON att_conf.att_conf_id = att_scalar_devdouble_rw.att_conf_id\nWHERE\n  $__timeFilter(data_time) AND att_name = 'tango://databaseds-tango-base-test.integration.svc.cluster.local:10000/mid_d0004/elt/master/windspeed'\nORDER BY data_time",
+              "refId": "A",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value_r"
+                    ],
+                    "type": "column"
+                  }
+                ]
+              ],
+              "table": "att_scalar_devdouble_rw",
+              "timeColumn": "data_time",
+              "timeColumnType": "timestamp",
+              "where": [
+                {
+                  "name": "$__timeFilter",
+                  "params": [],
+                  "type": "macro"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Scalar Double (windspeed) Plotly",
+          "type": "natel-plotly-panel",
+          "version": 1
         }
       ],
       "title": "Attributes",
       "type": "row"
     },
     {
-      "collapsed": true,
+      "collapsed": false,
       "datasource": null,
       "gridPos": {
         "h": 1,
@@ -376,354 +507,354 @@
         "y": 2
       },
       "id": 13,
-      "panels": [
-        {
-          "datasource": "Archiver",
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {
-                "align": null
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "idx"
-                },
-                "properties": [
-                  {
-                    "id": "custom.width",
-                    "value": 154
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Time"
-                },
-                "properties": [
-                  {
-                    "id": "custom.width",
-                    "value": 225
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 16,
-            "w": 13,
-            "x": 0,
-            "y": 3
-          },
-          "id": 5,
-          "pconfig": {
-            "fixScale": "",
-            "layout": {
-              "dragmode": "lasso",
-              "font": {
-                "family": "\"Open Sans\", Helvetica, Arial, sans-serif"
-              },
-              "hovermode": "closest",
-              "legend": {
-                "orientation": "h"
-              },
-              "showlegend": false,
-              "xaxis": {
-                "rangemode": "normal",
-                "showgrid": true,
-                "title": "X",
-                "type": "linear",
-                "zeroline": true
-              },
-              "yaxis": {
-                "rangemode": "normal",
-                "showgrid": true,
-                "title": "Time",
-                "type": "date",
-                "zeroline": true
-              },
-              "zaxis": {
-                "rangemode": "normal",
-                "showgrid": true,
-                "title": "Value",
-                "type": "linear",
-                "zeroline": true
-              }
-            },
-            "loadFromCDN": false,
-            "settings": {
-              "displayModeBar": false,
-              "type": "scatter3d"
-            },
-            "showAnnotations": false,
-            "traces": [
-              {
-                "mapping": {
-                  "color": "time_sec",
-                  "size": null,
-                  "text": "name",
-                  "x": "idx",
-                  "y": "time_sec",
-                  "z": "value"
-                },
-                "name": "Trace 1",
-                "settings": {
-                  "color_option": "solid",
-                  "line": {
-                    "color": "#005f81",
-                    "dash": "solid",
-                    "shape": "linear",
-                    "width": 6
-                  },
-                  "marker": {
-                    "color": "#33B5E5",
-                    "colorscale": "YlOrRd",
-                    "line": {
-                      "color": "#DDD",
-                      "width": 0
-                    },
-                    "showscale": false,
-                    "size": 5,
-                    "sizemin": 3,
-                    "sizemode": "diameter",
-                    "sizeref": 0.2,
-                    "symbol": "circle"
-                  },
-                  "textposition": ""
-                },
-                "show": {
-                  "line": true,
-                  "lines": false,
-                  "markers": false
-                }
-              }
-            ]
-          },
-          "pluginVersion": "7.0.0-beta3",
-          "targets": [
-            {
-              "format": "table",
-              "group": [],
-              "hide": false,
-              "metricColumn": "att_conf_id",
-              "rawQuery": true,
-              "rawSql": "SELECT\r\n  data_time as time_sec,\r\n  att_conf.name,\r\n  idx,\r\n  value_r as value\r\nFROM att_array_devdouble_rw INNER JOIN att_conf ON att_conf.att_conf_id = att_array_devdouble_rw.att_conf_id\r\nWHERE att_conf.att_name = 'tango://databaseds-tango-base-test.integration.svc.cluster.local:10000/mid_d0001/elt/master/desiredpointing'\r\nAND $__timeFilter(data_time)\r\nORDER BY data_time",
-              "refId": "A",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "value_r"
-                    ],
-                    "type": "column"
-                  }
-                ]
-              ],
-              "table": "att_array_devdouble_rw",
-              "timeColumn": "data_time",
-              "timeColumnType": "timestamp",
-              "where": []
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Desired Pointing (time interval)",
-          "type": "natel-plotly-panel",
-          "version": 1
-        },
-        {
-          "datasource": "Archiver",
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {
-                "align": null
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "idx"
-                },
-                "properties": [
-                  {
-                    "id": "custom.width",
-                    "value": 154
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Time"
-                },
-                "properties": [
-                  {
-                    "id": "custom.width",
-                    "value": 225
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 16,
-            "w": 11,
-            "x": 13,
-            "y": 3
-          },
-          "id": 7,
-          "pconfig": {
-            "fixScale": "",
-            "layout": {
-              "dragmode": "lasso",
-              "font": {
-                "family": "\"Open Sans\", Helvetica, Arial, sans-serif"
-              },
-              "hovermode": "closest",
-              "legend": {
-                "orientation": "h"
-              },
-              "showlegend": false,
-              "xaxis": {
-                "rangemode": "normal",
-                "showgrid": true,
-                "title": "X",
-                "type": "linear",
-                "zeroline": false
-              },
-              "yaxis": {
-                "rangemode": "normal",
-                "showgrid": true,
-                "title": "Value",
-                "type": "",
-                "zeroline": true
-              },
-              "zaxis": {
-                "rangemode": "normal",
-                "showgrid": true,
-                "title": "Value",
-                "type": "linear",
-                "zeroline": true
-              }
-            },
-            "loadFromCDN": false,
-            "settings": {
-              "displayModeBar": false,
-              "type": "scatter"
-            },
-            "showAnnotations": false,
-            "traces": [
-              {
-                "mapping": {
-                  "color": "time_sec",
-                  "size": null,
-                  "text": "name",
-                  "x": "idx",
-                  "y": "value",
-                  "z": "value"
-                },
-                "name": "Trace 1",
-                "settings": {
-                  "color_option": "solid",
-                  "line": {
-                    "color": "#005f81",
-                    "dash": "solid",
-                    "shape": "linear",
-                    "width": 6
-                  },
-                  "marker": {
-                    "color": "#33B5E5",
-                    "colorscale": "YlOrRd",
-                    "line": {
-                      "color": "#DDD",
-                      "width": 0
-                    },
-                    "showscale": false,
-                    "size": 5,
-                    "sizemin": 3,
-                    "sizemode": "diameter",
-                    "sizeref": 0.2,
-                    "symbol": "circle"
-                  },
-                  "textposition": "bottom"
-                },
-                "show": {
-                  "line": true,
-                  "lines": false,
-                  "markers": false
-                }
-              }
-            ]
-          },
-          "pluginVersion": "7.0.0-beta3",
-          "targets": [
-            {
-              "format": "table",
-              "group": [],
-              "hide": false,
-              "metricColumn": "att_conf_id",
-              "rawQuery": true,
-              "rawSql": "SELECT\r\n  att_conf.name,\r\n  idx,\r\n  value_r as value\r\nFROM att_array_devdouble_rw INNER JOIN att_conf ON att_conf.att_conf_id = att_array_devdouble_rw.att_conf_id\r\nWHERE att_conf.att_name = 'tango://databaseds-tango-base-test.integration.svc.cluster.local:10000/mid_d0001/elt/master/desiredpointing'\r\nAND data_time = (select max(data_time) from att_array_devdouble_rw)",
-              "refId": "A",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "value_r"
-                    ],
-                    "type": "column"
-                  }
-                ]
-              ],
-              "table": "att_array_devdouble_rw",
-              "timeColumn": "data_time",
-              "timeColumnType": "timestamp",
-              "where": []
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Desired Pointing (Latest)",
-          "type": "natel-plotly-panel",
-          "version": 1
-        }
-      ],
+      "panels": [],
       "title": "Plotly",
       "type": "row"
+    },
+    {
+      "datasource": "TangoArchiver",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "idx"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 154
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 225
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 16,
+        "w": 13,
+        "x": 0,
+        "y": 3
+      },
+      "id": 5,
+      "pconfig": {
+        "fixScale": "y",
+        "layout": {
+          "dragmode": "lasso",
+          "font": {
+            "family": "\"Open Sans\", Helvetica, Arial, sans-serif"
+          },
+          "hovermode": "closest",
+          "legend": {
+            "orientation": "h"
+          },
+          "showlegend": false,
+          "xaxis": {
+            "rangemode": "normal",
+            "showgrid": true,
+            "title": "X",
+            "type": "linear",
+            "zeroline": true
+          },
+          "yaxis": {
+            "rangemode": "normal",
+            "showgrid": true,
+            "title": "Time",
+            "type": "linear",
+            "zeroline": true
+          },
+          "zaxis": {
+            "rangemode": "normal",
+            "showgrid": true,
+            "title": "Value",
+            "type": "linear",
+            "zeroline": true
+          }
+        },
+        "loadFromCDN": false,
+        "settings": {
+          "displayModeBar": false,
+          "type": "scatter3d"
+        },
+        "showAnnotations": true,
+        "traces": [
+          {
+            "mapping": {
+              "color": "time_sec",
+              "size": null,
+              "text": "name",
+              "x": "idx",
+              "y": "time_sec",
+              "z": "value"
+            },
+            "name": "Trace 1",
+            "settings": {
+              "color_option": "solid",
+              "line": {
+                "color": "#005f81",
+                "dash": "solid",
+                "shape": "linear",
+                "width": 1
+              },
+              "marker": {
+                "color": "#33B5E5",
+                "colorscale": "YlOrRd",
+                "line": {
+                  "color": "#DDD",
+                  "width": 0
+                },
+                "showscale": false,
+                "size": 2,
+                "sizemin": 3,
+                "sizemode": "diameter",
+                "sizeref": 0.2,
+                "symbol": "square"
+              },
+              "textposition": ""
+            },
+            "show": {
+              "line": true,
+              "lines": true,
+              "markers": true
+            }
+          }
+        ]
+      },
+      "pluginVersion": "7.0.0-beta3",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "att_conf_id",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  data_time as time_sec,\r\n  att_conf.name,\r\n  idx,\r\n  value_r as value\r\nFROM att_array_devdouble_rw INNER JOIN att_conf ON att_conf.att_conf_id = att_array_devdouble_rw.att_conf_id\r\nWHERE att_conf.att_name = 'tango://databaseds-tango-base-test.integration.svc.cluster.local:10000/mid_d0001/elt/master/desiredpointing'\r\nAND $__timeFilter(data_time)\r\nORDER BY data_time desc ",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value_r"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "att_array_devdouble_rw",
+          "timeColumn": "data_time",
+          "timeColumnType": "timestamp",
+          "where": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Desired Pointing (time interval)",
+      "transformations": [],
+      "type": "natel-plotly-panel",
+      "version": 1
+    },
+    {
+      "datasource": "TangoArchiver",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "idx"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 154
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 225
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 16,
+        "w": 11,
+        "x": 13,
+        "y": 3
+      },
+      "id": 7,
+      "pconfig": {
+        "fixScale": "",
+        "layout": {
+          "dragmode": "lasso",
+          "font": {
+            "family": "\"Open Sans\", Helvetica, Arial, sans-serif"
+          },
+          "hovermode": "closest",
+          "legend": {
+            "orientation": "h"
+          },
+          "showlegend": false,
+          "xaxis": {
+            "rangemode": "normal",
+            "showgrid": true,
+            "title": "X",
+            "type": "linear",
+            "zeroline": false
+          },
+          "yaxis": {
+            "rangemode": "normal",
+            "showgrid": true,
+            "title": "Value",
+            "type": "",
+            "zeroline": true
+          },
+          "zaxis": {
+            "rangemode": "normal",
+            "showgrid": true,
+            "title": "Value",
+            "type": "linear",
+            "zeroline": true
+          }
+        },
+        "loadFromCDN": false,
+        "settings": {
+          "displayModeBar": false,
+          "type": "scatter"
+        },
+        "showAnnotations": false,
+        "traces": [
+          {
+            "mapping": {
+              "color": "time_sec",
+              "size": null,
+              "text": "name",
+              "x": "idx",
+              "y": "value",
+              "z": "value"
+            },
+            "name": "Trace 1",
+            "settings": {
+              "color_option": "solid",
+              "line": {
+                "color": "#005f81",
+                "dash": "solid",
+                "shape": "linear",
+                "width": 6
+              },
+              "marker": {
+                "color": "#33B5E5",
+                "colorscale": "YlOrRd",
+                "line": {
+                  "color": "#DDD",
+                  "width": 0
+                },
+                "showscale": false,
+                "size": 5,
+                "sizemin": 3,
+                "sizemode": "diameter",
+                "sizeref": 0.2,
+                "symbol": "circle"
+              },
+              "textposition": "bottom"
+            },
+            "show": {
+              "line": true,
+              "lines": false,
+              "markers": false
+            }
+          }
+        ]
+      },
+      "pluginVersion": "7.0.0-beta3",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "att_conf_id",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  att_conf.name,\r\n  idx,\r\n  value_r as value\r\nFROM att_array_devdouble_rw INNER JOIN att_conf ON att_conf.att_conf_id = att_array_devdouble_rw.att_conf_id\r\nWHERE att_conf.att_name = 'tango://databaseds-tango-base-test.integration.svc.cluster.local:10000/mid_d0001/elt/master/desiredpointing'\r\norder by data_time desc\r\nlimit 3",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value_r"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "att_array_devdouble_rw",
+          "timeColumn": "data_time",
+          "timeColumnType": "timestamp",
+          "where": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Desired Pointing (Latest)",
+      "type": "natel-plotly-panel",
+      "version": 1
     }
   ],
   "refresh": "1m",
@@ -753,5 +884,5 @@
   "timezone": "",
   "title": "Archiver",
   "uid": "MZkwGRiMk",
-  "version": 20
+  "version": 25
 }

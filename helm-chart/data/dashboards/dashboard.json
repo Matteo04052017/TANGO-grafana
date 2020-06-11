@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 1,
-  "iteration": 1591202929125,
+  "iteration": 1591860209092,
   "links": [],
   "panels": [
     {
@@ -67,10 +67,11 @@
           "calcs": [
             "lastNotNull"
           ],
+          "fields": "",
           "values": false
         }
       },
-      "pluginVersion": "7.0.0-beta3",
+      "pluginVersion": "7.0.3",
       "targets": [
         {
           "expr": "sum(attribute_count)",
@@ -118,10 +119,11 @@
           "calcs": [
             "lastNotNull"
           ],
+          "fields": "",
           "values": false
         }
       },
-      "pluginVersion": "7.0.0-beta3",
+      "pluginVersion": "7.0.3",
       "targets": [
         {
           "expr": "sum(attribute_read_count)",
@@ -169,10 +171,11 @@
           "calcs": [
             "lastNotNull"
           ],
+          "fields": "",
           "values": false
         }
       },
-      "pluginVersion": "7.0.0-beta3",
+      "pluginVersion": "7.0.3",
       "targets": [
         {
           "expr": "sum(spectrum_attribute_count)",
@@ -224,10 +227,11 @@
           "calcs": [
             "lastNotNull"
           ],
+          "fields": "",
           "values": false
         }
       },
-      "pluginVersion": "7.0.0-beta3",
+      "pluginVersion": "7.0.3",
       "targets": [
         {
           "expr": "sum(image_attribute_count)",
@@ -279,10 +283,11 @@
           "calcs": [
             "lastNotNull"
           ],
+          "fields": "",
           "values": false
         }
       },
-      "pluginVersion": "7.0.0-beta3",
+      "pluginVersion": "7.0.3",
       "targets": [
         {
           "expr": "sum(error_count)",
@@ -334,10 +339,11 @@
           "calcs": [
             "lastNotNull"
           ],
+          "fields": "",
           "values": false
         }
       },
-      "pluginVersion": "7.0.0-beta3",
+      "pluginVersion": "7.0.3",
       "targets": [
         {
           "expr": "sum(error_attr_count)",
@@ -389,10 +395,11 @@
           "calcs": [
             "lastNotNull"
           ],
+          "fields": "",
           "values": false
         }
       },
-      "pluginVersion": "7.0.0-beta3",
+      "pluginVersion": "7.0.3",
       "targets": [
         {
           "expr": "sum(not_managed_attribute_count)",
@@ -1413,7 +1420,7 @@
       "type": "inaf-tango-command"
     }
   ],
-  "refresh": "5s",
+  "refresh": "5m",
   "schemaVersion": 25,
   "style": "dark",
   "tags": [],
@@ -1422,11 +1429,11 @@
       {
         "allValue": null,
         "current": {
-          "selected": true,
-          "text": "sys/tg_test/1 + sys/database/2",
+          "selected": false,
+          "text": "sys/database/2 + sys/tg_test/1",
           "value": [
-            "sys/tg_test/1",
-            "sys/database/2"
+            "sys/database/2",
+            "sys/tg_test/1"
           ]
         },
         "datasource": "Prometheus",

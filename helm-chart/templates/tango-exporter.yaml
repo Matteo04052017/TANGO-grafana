@@ -6,10 +6,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: tango-exporter-service-{{ . }}
-  namespace: tango-grafana
+  namespace: {{ $.Release.Namespace }}
 spec:
   selector:
-    app: tango-exporter-{{ . }}
+    app: tango-exporter-service-{{ . }}
   type: NodePort
   ports:
   - protocol: TCP
@@ -21,23 +21,24 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: tango-exporter-deployment-{{ . }}
-  namespace: tango-grafana
+  namespace: {{ $.Release.Namespace }}
   labels:
-    app: tango-exporter-{{ . }}
+    app: tango-exporter-service-{{ . }}
 spec:
   serviceName: tango-exporter-service-{{ . }}
   replicas: 1
   selector:
     matchLabels:
-      app: tango-exporter-{{ . }}
+      app: tango-exporter-service-{{ . }}
   template:
     metadata:
       labels:
-        app: tango-exporter-{{ . }}
+        app: tango-exporter-service-{{ . }}
     spec:
       containers:
       - name: tango-exporter
-        image: tango-exporter:1.0.0
+        image: "{{ $.Values.tango_exporter.image.registry }}/{{ $.Values.tango_exporter.image.image }}:{{ $.Values.tango_exporter.image.tag }}"
+        imagePullPolicy: {{ $.Values.tango_exporter.image.pullPolicy }}
         ports:
         - containerPort: 8000
         env:

@@ -1,0 +1,81 @@
+{{ if .Values.minikube }}
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: prom-tango-grafana
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: TANGO-grafana
+spec:
+  storageClassName: standard
+  persistentVolumeReclaimPolicy: Recycle
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /data/prometheus-{{ .Release.Namespace }}/
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: grafana-tango-grafana
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: TANGO-grafana
+spec:
+  storageClassName: standard
+  persistentVolumeReclaimPolicy: Recycle
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /data/grafana-{{ .Release.Namespace }}/
+{{ end }}
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prom-tango-grafana
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: TANGO-grafana
+spec:
+{{ if .Values.minikube }}
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+{{ else }}
+  storageClassName: nfss1
+  accessModes:
+    - ReadWriteMany
+{{ end }}
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: grafana-tango-grafana
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: TANGO-grafana
+spec:
+{{ if .Values.minikube }}
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+{{ else }}
+  storageClassName: nfss1
+  accessModes:
+    - ReadWriteMany
+{{ end }}
+  resources:
+    requests:
+      storage: 10Gi

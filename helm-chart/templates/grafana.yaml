@@ -2,10 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: grafana-service
-  namespace: tango-grafana
+  namespace: {{ .Release.Namespace }}
 spec:
   selector:
-    app: grafana
+    app: grafana-service
   type: NodePort
   ports:
   - protocol: TCP
@@ -18,45 +18,129 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: grafana-provisioning-datasource
-  namespace: tango-grafana
+  namespace: {{ .Release.Namespace }}
 data: 
-    datasource.yaml: |
-      apiVersion: 1
-      deleteDatasources:
-        - name: 'Prometheus'
-          orgId: 1
-      datasources:
+  datasource.yaml: |- 
+    apiVersion: 1
+    deleteDatasources:
       - name: 'Prometheus'
-        type: 'prometheus'
-        access: 'proxy'
         orgId: 1
-        url: http://prometheus-service:9090
-        basicAuth: false
-        isDefault: true
-        editable: false
+      - name: 'TangoDB'
+        orgId: 1
+    datasources:
+    - name: 'Prometheus'
+      type: 'prometheus'
+      access: 'proxy'
+      orgId: 1
+      url: http://prometheus-service:9090
+      basicAuth: false
+      isDefault: true
+      editable: false
+    - name: 'TangoDB'
+      type: 'mysql'
+      access: 'proxy'
+      orgId: 1
+      url: tangodb-tango-base-test.integration.svc.cluster.local:3306
+      user: 'tango'
+      database: 'tango'
+      secureJsonData:
+        password: 'tango'
+    - name: 'TangoArchiver'
+      type: 'mysql'
+      access: 'proxy'
+      orgId: 1
+      url: archiverdb-archiver-test.integration.svc.cluster.local:3306
+      user: 'tango'
+      database: 'hdbpp'
+      secureJsonData:
+        password: 'tango'
+    - name: 'ElasticEngageCluster'
+      type: 'elasticsearch'
+      access: 'proxy'
+      orgId: 1
+      url: http://192.168.93.94:9200
+      database: 'filebeat-*'
+      jsonData: 
+        esVersion: 70
+        logLevelField: ''
+        logMessageField: 'ska_log_message'
+        maxConcurrentShardRequests: 5
+        timeField: '@timestamp'
+        timeInterval: '10s'
+    - name: 'ElasticLocal'
+      type: 'elasticsearch'
+      access: 'proxy'
+      orgId: 1
+      url: http://elastic-logging-test.integration.svc.cluster.local:9200
+      database: 'logstash-*'
+      jsonData: 
+        esVersion: 70
+        logLevelField: ''
+        logMessageField: 'ska_log_message'
+        maxConcurrentShardRequests: 5
+        timeField: '@timestamp'
+        timeInterval: '10s'
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-provisioning-dashboards
+  namespace: {{ .Release.Namespace }}
+data: 
+  archiver.json: |-
+{{ ($.Files.Get "data/dashboards/archiver.json") | indent 4  }}
+  dashboard.json: |-
+{{ ($.Files.Get "data/dashboards/dashboard.json") | indent 4  }}
+  db.json: |-
+{{ ($.Files.Get "data/dashboards/db.json") | indent 4  }}
+  state.json: |-
+{{ ($.Files.Get "data/dashboards/state.json") | indent 4  }}
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-provisioning-example-definition
+  namespace: {{ .Release.Namespace }}
+data: 
+  example.yml: |
+    apiVersion: 1
+
+    providers:
+    - name: 'Example Dashboards'
+      orgId: 1
+      folder: 'example'
+      type: file
+      disableDeletion: false
+      updateIntervalSeconds: 3
+      editable: true
+      options:
+        path: '/etc/grafana/provisioning/dashboards/example'
 
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: grafana-deployment
-  namespace: tango-grafana
+  namespace: {{ .Release.Namespace }}
   labels:
-    app: grafana
+    app: grafana-service
 spec:
   serviceName: grafana-service
   replicas: 1
   selector:
     matchLabels:
-      app: grafana
+      app: grafana-service
   template:
     metadata:
       labels:
-        app: grafana
+        app: grafana-service
     spec:
       containers:
       - name: grafana
-        image: grafana-tango-plugins:1.0.0
+        image: "{{ .Values.grafana_with_tango_plugin.image.registry }}/{{ .Values.grafana_with_tango_plugin.image.image }}:{{ .Values.grafana_with_tango_plugin.image.tag }}"
+        imagePullPolicy: {{ .Values.grafana_with_tango_plugin.image.pullPolicy }}
         ports:
         - containerPort: 3000
         volumeMounts:
@@ -64,10 +148,21 @@ spec:
           mountPath: /var/lib/grafana
         - name: config
           mountPath: /etc/grafana/provisioning/datasources
+        - name: exampledashboards
+          mountPath: /etc/grafana/provisioning/dashboards/example
+        - name: exampledef
+          mountPath: /etc/grafana/provisioning/dashboards
       volumes:
       - name: config
         configMap:
           name: grafana-provisioning-datasource
+      - name: exampledashboards
+        configMap:
+          name: grafana-provisioning-dashboards
+      - name: exampledef
+        configMap:
+          name: grafana-provisioning-example-definition
       - name: data
-        hostPath:
-          path: /home/ubuntu/tango-grafana-data/grafana_data/
+        persistentVolumeClaim:
+          claimName: grafana-tango-grafana
+
